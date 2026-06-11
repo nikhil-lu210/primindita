@@ -9,6 +9,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Favicon & App Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="shortcut icon" href="favicons/favicon.ico">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -189,12 +196,13 @@
                 <a href="#collection" class="font-bengali font-medium text-bengal-charcoal hover:text-bengal-red transition-colors">সংগ্রহ</a>
             </nav>
 
-            <!-- Brand Typography Logo -->
+            <!-- Brand Logo & Typography -->
             <div class="text-center flex flex-col items-center">
-                <a href="#" class="font-serif text-3xl font-bold tracking-wider text-bengal-red flex items-center gap-1">
+                <a href="#" class="flex items-center gap-2 font-serif text-3xl font-bold tracking-wider text-bengal-red">
+                    <img src="logo.png" alt="প্রিমিন্দীতা লোগো" class="h-10 w-auto object-contain">
                     <span class="font-bengali">প্রিমিন্দীতা</span>
                 </a>
-                <span class="hidden sm:inline-block text-[10px] uppercase tracking-[0.2em] font-sans text-bengal-charcoal/60 font-semibold">পোশাক • অলংকার • ভালোবাসায় বাঙালি</span>
+                <span class="hidden sm:inline-block text-[10px] uppercase tracking-[0.2em] font-sans text-bengal-charcoal/60 font-semibold mt-1">পোশাক • অলংকার • ভালোবাসায় বাঙালি</span>
             </div>
 
             <!-- Action Controls (Right) -->
@@ -218,7 +226,10 @@
         <!-- Mobile Navigation Drawer -->
         <div id="mobile-menu" class="md:hidden fixed inset-y-0 left-0 max-w-xs w-full bg-bengal-cream shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out border-r border-bengal-gold/20 flex flex-col">
             <div class="p-6 border-b border-bengal-gold/20 flex justify-between items-center">
-                <span class="font-serif text-2xl font-bold text-bengal-red font-bengali">প্রিমিন্দীতা</span>
+                <a href="#" class="flex items-center gap-2 font-serif text-2xl font-bold text-bengal-red">
+                    <img src="logo.png" alt="প্রিমিন্দীতা লোগো" class="h-8 w-auto object-contain">
+                    <span class="font-bengali">প্রিমিন্দীতা</span>
+                </a>
                 <button onclick="toggleMobileMenu()" class="text-bengal-charcoal hover:text-bengal-red p-2 rounded-full hover:bg-bengal-creamdamp transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -672,7 +683,10 @@
             
             <!-- Left Branding -->
             <div class="md:col-span-5 space-y-4">
-                <span class="font-serif text-3xl font-extrabold text-bengal-gold font-bengali tracking-wider">প্রিমিন্দীতা</span>
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" alt="প্রিমিন্দীতা লোগো" class="h-12 w-auto object-contain brightness-0 invert opacity-90">
+                    <span class="font-serif text-3xl font-extrabold text-bengal-gold font-bengali tracking-wider">প্রিমিন্দীতা</span>
+                </div>
                 <p class="font-bengali text-sm text-bengal-cream/60 max-w-sm leading-relaxed">
                     বাঙালির চিরায়ত সংস্কৃতি ও নারীর নিখাদ সৌন্দর্যকে ফুটিয়ে তুলতে আমাদের ক্ষুদ্র ও আন্তরিক প্রচেষ্টা। প্রতিটি শাড়ি ও গহনা ডিজাইনার প্রিমিন্দীতার নিজস্ব ভাবনায় নির্মিত।
                 </p>
