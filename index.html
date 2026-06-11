@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রিমিন্দীতা | পোশাক • অলংকার • ভালোবাসায় বাঙালি</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bengal: {
+                            cream: '#F9F6F0',
+                            creamdamp: '#F2ECE0',
+                            red: '#8F1D1D',
+                            reddark: '#6E1212',
+                            charcoal: '#1F1313',
+                            gold: '#C29F53',
+                            goldlight: '#E5D5B3'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        bengali: ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F9F6F0;
+            color: #1F1313;
+            font-family: 'Hind Siliguri', 'Montserrat', sans-serif;
+        }
+        /* Custom smooth transition */
+        .transition-all-300 {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom scrollbar for boutique look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8F1D1D;
+            border-radius: 3px;
+        }
+        /* Hotspot pulsation animation */
+        @keyframes pulse-gold {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.3); opacity: 0.4; }
+        }
+        .hotspot-pulse {
+            animation: pulse-gold 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="selection:bg-bengal-red selection:text-white overflow-x-hidden">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Quick View Drawer / Modal Backdrop -->
+    <div id="quickview-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-bengal-cream max-w-2xl w-full rounded-2xl overflow-hidden shadow-2xl relative border border-bengal-gold/20 flex flex-col md:flex-row transition-transform duration-300 scale-95" id="quickview-content">
+            <!-- Dynamically injected content -->
+        </div>
+    </div>
+
+    <!-- Side Shopping Cart -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-bengal-cream shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out border-l border-bengal-gold/20 flex flex-col">
+        <div class="p-6 border-b border-bengal-gold/20 flex justify-between items-center">
+            <h3 class="font-serif text-2xl text-bengal-red font-semibold flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                আপনার থলি (Cart)
+            </h3>
+            <button onclick="toggleCart()" class="text-bengal-charcoal hover:text-bengal-red p-2 rounded-full hover:bg-bengal-creamdamp transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <!-- Cart Items -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Dynamically injected cart items -->
+            <div class="text-center py-12 text-bengal-charcoal/50">
+                <p class="font-bengali text-lg">আপনার থলি এখন শূন্য!</p>
+                <p class="text-xs mt-2 font-sans">Explore the collection to add beautiful creations.</p>
+            </div>
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="p-6 border-t border-bengal-gold/20 bg-bengal-creamdamp/50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-bengali font-semibold text-bengal-charcoal">মোট মূল্য (Total)</span>
+                <span id="cart-total" class="font-bengali text-xl font-bold text-bengal-red">৳ ০</span>
+            </div>
+            <div class="space-y-2">
+                <button onclick="openCheckout()" class="w-full bg-bengal-red hover:bg-bengal-reddark text-white py-3 px-4 rounded-xl font-bengali font-medium tracking-wide transition-colors flex items-center justify-center gap-2">
+                    অর্ডার সম্পন্ন করুন 
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+                <button onclick="orderViaWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-xl font-bengali font-medium transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.451 5.477 0 9.934-4.456 9.938-9.934.002-2.654-1.03-5.15-2.902-7.024C16.538 1.77 14.045 .737 11.4 1.396 7.024 1.4 3.568 5.856 3.564 11.334c-.001 1.62.424 3.202 1.233 4.602l-.997 3.636 3.847-.981z"></path></svg>
+                    সরাসরি হোয়াটসঅ্যাপে অর্ডার করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-bengal-cream max-w-xl w-full rounded-2xl overflow-hidden shadow-2xl relative border border-bengal-gold/20 flex flex-col p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-serif text-2xl text-bengal-red font-semibold">অর্ডার বিবরণী (Checkout)</h3>
+                <button onclick="closeCheckout()" class="text-bengal-charcoal hover:text-bengal-red p-2 rounded-full hover:bg-bengal-creamdamp transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <form id="checkout-form" onsubmit="handlePlaceOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block font-bengali text-bengal-charcoal font-medium mb-1">আপনার সম্পূর্ণ নাম *</label>
+                    <input type="text" required class="w-full bg-white border border-bengal-gold/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-bengal-red font-bengali">
+                </div>
+                <div>
+                    <label class="block font-bengali text-bengal-charcoal font-medium mb-1">ফোন নম্বর *</label>
+                    <input type="tel" required placeholder="017XXXXXXXX" class="w-full bg-white border border-bengal-gold/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-bengal-red">
+                </div>
+                <div>
+                    <label class="block font-bengali text-bengal-charcoal font-medium mb-1">ডেলিভারি ঠিকানা *</label>
+                    <textarea required rows="3" placeholder="গ্রাম/রাস্তা, থানা, জেলা" class="w-full bg-white border border-bengal-gold/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-bengal-red font-bengali"></textarea>
+                </div>
+                <div>
+                    <label class="block font-bengali text-bengal-charcoal font-medium mb-1">পেমেন্ট পদ্ধতি</label>
+                    <div class="grid grid-cols-2 gap-3 mt-1">
+                        <label class="border border-bengal-gold/30 rounded-lg p-3 flex items-center justify-center gap-2 cursor-pointer bg-white hover:border-bengal-red transition-all">
+                            <input type="radio" name="payment" value="cod" checked class="accent-bengal-red">
+                            <span class="font-bengali text-sm font-medium">ক্যাশ অন ডেলিভারি</span>
+                        </label>
+                        <label class="border border-bengal-gold/30 rounded-lg p-3 flex items-center justify-center gap-2 cursor-pointer bg-white hover:border-bengal-red transition-all">
+                            <input type="radio" name="payment" value="bkash_nagad" class="accent-bengal-red">
+                            <span class="font-bengali text-sm font-medium">বিকাশ / নগদ</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="p-4 bg-bengal-creamdamp rounded-lg mt-4 border border-bengal-gold/10">
+                    <h4 class="font-bengali font-semibold text-bengal-red mb-2">সারসংক্ষেপ (Order Summary)</h4>
+                    <div id="checkout-summary-items" class="space-y-1 text-sm font-bengali text-bengal-charcoal/80">
+                        <!-- Dynamic items list -->
+                    </div>
+                    <div class="border-t border-bengal-gold/20 mt-2 pt-2 flex justify-between font-bengali text-base font-bold text-bengal-charcoal">
+                        <span>সর্বমোট মূল্য</span>
+                        <span id="checkout-summary-total">৳ ০</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-bengal-red hover:bg-bengal-reddark text-white py-3 px-4 rounded-xl font-bengali font-semibold tracking-wide transition-colors mt-6">
+                    অর্ডার নিশ্চিত করুন (Confirm Order)
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 w-full bg-bengal-cream/85 backdrop-blur-md z-40 border-b border-bengal-gold/10 transition-all-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-bengal-charcoal hover:text-bengal-red p-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+
+            <!-- Navigation Links (Left) -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#hero" class="font-bengali font-medium text-bengal-charcoal hover:text-bengal-red transition-colors">হোম</a>
+                <a href="#about" class="font-bengali font-medium text-bengal-charcoal hover:text-bengal-red transition-colors">প্রিমিন্দীতার কথা</a>
+                <a href="#lookbook" class="font-bengali font-medium text-bengal-charcoal hover:text-bengal-red transition-colors">লুকবুক</a>
+                <a href="#collection" class="font-bengali font-medium text-bengal-charcoal hover:text-bengal-red transition-colors">সংগ্রহ</a>
+            </nav>
+
+            <!-- Brand Typography Logo -->
+            <div class="text-center flex flex-col items-center">
+                <a href="#" class="font-serif text-3xl font-bold tracking-wider text-bengal-red flex items-center gap-1">
+                    <span class="font-bengali">প্রিমিন্দীতা</span>
+                </a>
+                <span class="hidden sm:inline-block text-[10px] uppercase tracking-[0.2em] font-sans text-bengal-charcoal/60 font-semibold">পোশাক • অলংকার • ভালোবাসায় বাঙালি</span>
+            </div>
+
+            <!-- Action Controls (Right) -->
+            <div class="flex items-center space-x-4">
+                <!-- Search Bar (Desktop) -->
+                <div class="relative hidden sm:block">
+                    <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="খুঁজুন..." class="bg-white/60 border border-bengal-gold/20 text-sm font-bengali rounded-full py-1.5 pl-4 pr-10 focus:outline-none focus:ring-1 focus:ring-bengal-red w-44 focus:w-60 transition-all duration-300">
+                    <span class="absolute right-3 top-2.5 text-bengal-charcoal/40">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                </div>
+
+                <!-- Shopping Bag Trigger -->
+                <button onclick="toggleCart()" class="relative text-bengal-charcoal hover:text-bengal-red p-1.5 rounded-full hover:bg-bengal-creamdamp/60 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-bengal-red text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold font-sans">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="md:hidden fixed inset-y-0 left-0 max-w-xs w-full bg-bengal-cream shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out border-r border-bengal-gold/20 flex flex-col">
+            <div class="p-6 border-b border-bengal-gold/20 flex justify-between items-center">
+                <span class="font-serif text-2xl font-bold text-bengal-red font-bengali">প্রিমিন্দীতা</span>
+                <button onclick="toggleMobileMenu()" class="text-bengal-charcoal hover:text-bengal-red p-2 rounded-full hover:bg-bengal-creamdamp transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <nav class="flex-1 p-6 flex flex-col space-y-4">
+                <a href="#hero" onclick="toggleMobileMenu()" class="font-bengali text-lg font-medium text-bengal-charcoal hover:text-bengal-red py-2 border-b border-bengal-gold/5">হোম</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="font-bengali text-lg font-medium text-bengal-charcoal hover:text-bengal-red py-2 border-b border-bengal-gold/5">প্রিমিন্দীতার কথা</a>
+                <a href="#lookbook" onclick="toggleMobileMenu()" class="font-bengali text-lg font-medium text-bengal-charcoal hover:text-bengal-red py-2 border-b border-bengal-gold/5">লুকবুক</a>
+                <a href="#collection" onclick="toggleMobileMenu()" class="font-bengali text-lg font-medium text-bengal-charcoal hover:text-bengal-red py-2 border-b border-bengal-gold/5">সংগ্রহ</a>
+                
+                <div class="pt-6">
+                    <input type="text" oninput="handleSearch(this.value)" placeholder="খুঁজুন..." class="w-full bg-white border border-bengal-gold/30 rounded-lg px-4 py-2 text-sm font-bengali focus:outline-none focus:ring-1 focus:ring-bengal-red">
+                </div>
+            </nav>
+            <div class="p-6 border-t border-bengal-gold/20 bg-bengal-creamdamp/20 text-center">
+                <p class="font-bengali text-xs text-bengal-charcoal/60">© প্রিমিন্দীতা ২০২৬ | ভালোবাসায় বাঙালি</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Bengali Illustration Focus) -->
+    <section id="hero" class="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-b from-bengal-cream to-bengal-creamdamp/40 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full">
+            
+            <!-- Hero Left: Elegant Editorial Text -->
+            <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-bengal-red/10 text-bengal-red px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-sans">
+                    <span class="w-2 h-2 rounded-full bg-bengal-red"></span>
+                    Pure Bengali Craftsmanship
+                </div>
+                
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-black text-bengal-charcoal leading-tight">
+                    বাঙালি নারীর <br>
+                    <span class="text-bengal-red font-bengali">শাশ্বত রূপের</span> <br>
+                    অনন্য গৌরব।
+                </h1>
+                
+                <p class="font-bengali text-base sm:text-lg text-bengal-charcoal/80 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                    যেখানে প্রতিটি সুতোয় বোনা থাকে ঐতিহ্য আর প্রতিটি অলংকারে জড়ানো থাকে আবেগ। প্রিমিন্দীতা নিজের ডিজাইন করা এবং নিজেই মডেল সেজে নিয়ে এসেছে খাঁটি বাঙালি পোশাক ও অলংকারের মেলা।
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#collection" class="w-full sm:w-auto bg-bengal-red hover:bg-bengal-reddark text-white px-8 py-4 rounded-xl font-bengali text-base font-semibold shadow-lg shadow-bengal-red/10 transition-colors flex items-center justify-center gap-2">
+                        সংগ্রহটি দেখুন 
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-6l-7 7-7-7"></path></svg>
+                    </a>
+                    <a href="#about" class="w-full sm:w-auto border border-bengal-gold hover:bg-bengal-gold/10 text-bengal-charcoal px-8 py-4 rounded-xl font-bengali text-base font-semibold transition-colors flex items-center justify-center">
+                        আমার কাহিনী
+                    </a>
+                </div>
+
+                <!-- Mini Stats Badge -->
+                <div class="grid grid-cols-3 gap-4 pt-8 border-t border-bengal-gold/20 max-w-md mx-auto lg:mx-0">
+                    <div>
+                        <div class="font-serif text-2xl font-bold text-bengal-red">১০০%</div>
+                        <div class="font-bengali text-xs text-bengal-charcoal/60">হস্তশিল্পজাত</div>
+                    </div>
+                    <div>
+                        <div class="font-serif text-2xl font-bold text-bengal-red">স্বদেশী</div>
+                        <div class="font-bengali text-xs text-bengal-charcoal/60">উৎপাদন</div>
+                    </div>
+                    <div>
+                        <div class="font-serif text-2xl font-bold text-bengal-red">অনন্য</div>
+                        <div class="font-bengali text-xs text-bengal-charcoal/60">ডিজাইন</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Right: Pure SVG Bengal Vector Logo/Illustration -->
+            <div class="lg:col-span-6 flex justify-center items-center relative">
+                <!-- Decorative Circle Backdrop -->
+                <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-bengal-gold/5 blur-3xl -z-10"></div>
+                
+                <!-- Stylized Responsive SVG Illustration echoing the uploaded logo -->
+                <svg viewBox="0 0 800 800" class="w-full max-w-[500px] drop-shadow-xl" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Base background glow -->
+                    <circle cx="400" cy="400" r="380" fill="#F4EDE0" opacity="0.3"/>
+                    
+                    <!-- Massive Crimson Red Sun -->
+                    <circle cx="480" cy="270" r="110" fill="#8F1D1D" />
+                    
+                    <!-- Traditional Alpana flourishes in the background -->
+                    <path d="M480,270 L480,160 M480,270 L480,380 M480,270 L370,270 M480,270 L590,270" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2" stroke-dasharray="5,5"/>
+                    <circle cx="480" cy="270" r="85" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.5" stroke-dasharray="8,4" />
+
+                    <!-- Flying Birds Silhouette -->
+                    <path d="M500,190 Q510,185 520,190 Q510,195 500,190 Z" fill="#1F1313" opacity="0.6"/>
+                    <path d="M540,210 Q548,206 556,210 Q548,214 540,210 Z" fill="#1F1313" opacity="0.6"/>
+                    <path d="M560,230 Q565,227 570,230 Q565,233 560,230 Z" fill="#1F1313" opacity="0.6"/>
+
+                    <!-- Sketchy Palm Trees & Rural Bengal Straw Hut Elements -->
+                    <g transform="translate(540, 310) scale(0.9)">
+                        <!-- Hut -->
+                        <path d="M40,50 L80,50 L90,75 L30,75 Z" fill="#C29F53" opacity="0.2"/>
+                        <path d="M40,50 L80,50 L90,75 L30,75" stroke="#1F1313" stroke-width="2" stroke-linecap="round"/>
+                        <rect x="42" y="75" width="36" height="25" fill="#F9F6F0" stroke="#1F1313" stroke-width="2"/>
+                        <rect x="54" y="85" width="12" height="15" fill="#1F1313"/>
+                        <!-- Palm Tree -->
+                        <path d="M100,20 Q95,50 90,100" stroke="#1F1313" stroke-width="3" stroke-linecap="round"/>
+                        <!-- Leaves -->
+                        <path d="M100,20 Q115,10 130,15" stroke="#1F1313" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M100,20 Q120,25 125,40" stroke="#1F1313" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M100,20 Q80,10 70,15" stroke="#1F1313" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M100,20 Q85,30 80,45" stroke="#1F1313" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M100,20 Q105,5 110,0" stroke="#1F1313" stroke-width="2" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Traditional Bengali River Boat (Bajra/Nouka) -->
+                    <g transform="translate(420, 325) scale(0.8)">
+                        <path d="M20,60 C40,75 120,75 140,60 C110,65 50,65 20,60 Z" fill="#1F1313"/>
+                        <path d="M15,60 C30,75 130,75 145,60 L140,50 C110,55 50,55 20,50 Z" fill="#1F1313" opacity="0.8"/>
+                        <!-- Boat canopy -->
+                        <path d="M60,55 C60,35 100,35 100,55 Z" fill="#C29F53" opacity="0.4" stroke="#1F1313" stroke-width="2"/>
+                        <!-- Water ripples -->
+                        <path d="M5,75 Q30,72 60,75 T115,75 T160,75" stroke="#1F1313" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M25,82 Q55,80 85,82 T145,82" stroke="#1F1313" stroke-width="1" stroke-linecap="round" stroke-dasharray="10,5"/>
+                    </g>
+
+                    <!-- The Elegant Bengali Woman Profile Silhouette (representing Primindita) -->
+                    <g transform="translate(180, 160)">
+                        <!-- Flowing black hair lines -->
+                        <path d="M150,50 C60,50 50,150 150,220" stroke="#1F1313" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+                        <path d="M165,40 C50,45 30,165 140,240" stroke="#1F1313" stroke-width="3" stroke-linecap="round" fill="none"/>
+                        <path d="M180,30 C30,35 10,185 120,270" stroke="#1F1313" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <!-- Hair bun / flow -->
+                        <path d="M120,270 C80,300 20,260 50,320 C70,360 160,340 220,320" stroke="#1F1313" stroke-width="4" stroke-linecap="round" fill="none"/>
+                        <path d="M100,285 C70,310 35,285 58,335 C73,368 140,350 190,335" stroke="#1F1313" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+                        <!-- Face profile outline -->
+                        <path d="M150,50 C155,70 148,90 135,105 C125,115 118,125 118,135 C118,145 122,150 128,155 L128,162 C122,165 118,172 124,180 L134,188 C138,195 132,205 145,215 C160,225 175,230 190,230" stroke="#1F1313" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                        
+                        <!-- Closed graceful eye and brow -->
+                        <path d="M136,120 Q144,118 150,123" stroke="#1F1313" stroke-width="3" stroke-linecap="round" fill="none"/>
+                        <path d="M133,110 Q145,104 154,110" stroke="#1F1313" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        
+                        <!-- Red bindi (Kopal-er Tip) -->
+                        <circle cx="148" cy="100" r="7.5" fill="#8F1D1D" />
+
+                        <!-- Lips with micro details -->
+                        <path d="M125,168 Q131,168 135,170" stroke="#8F1D1D" stroke-width="3.5" stroke-linecap="round"/>
+
+                        <!-- Elegant Traditional Jhumka (Earring) -->
+                        <g transform="translate(182, 170) scale(1.1)">
+                            <!-- Top stud -->
+                            <circle cx="10" cy="10" r="8" fill="#C29F53" stroke="#1F1313" stroke-width="1.5"/>
+                            <circle cx="10" cy="10" r="3" fill="#8F1D1D"/>
+                            <!-- Connector hanging loop -->
+                            <path d="M10,18 L10,25" stroke="#1F1313" stroke-width="2"/>
+                            <!-- Jhumka Dome -->
+                            <path d="M-2,25 C-2,18 22,18 22,25 L20,35 C20,35 15,38 10,38 C5,38 0,35 0,35 Z" fill="#C29F53" stroke="#1F1313" stroke-width="1.5"/>
+                            <path d="M2,31 L18,31" stroke="#1F1313" stroke-width="1" stroke-dasharray="2,2"/>
+                            <!-- Hanging little beads -->
+                            <circle cx="2" cy="42" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="10" cy="44" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="18" cy="42" r="2.5" fill="#8F1D1D"/>
+                        </g>
+                    </g>
+
+                    <!-- Elegant Typography at the bottom in the artwork style -->
+                    <text x="400" y="660" text-anchor="middle" font-family="'Hind Siliguri', serif" font-size="52" font-weight="900" fill="#1F1313" letter-spacing="4">প্রিমিন্দীতা</text>
+                    
+                    <!-- Decorative line and Lotus flower icon below typography -->
+                    <path d="M150,710 L350,710 M450,710 L650,710" stroke="#1F1313" stroke-width="1.5" stroke-linecap="round"/>
+                    <g transform="translate(382, 692) scale(0.7)">
+                        <!-- Lotus -->
+                        <path d="M25,0 C15,12 5,18 5,28 C5,35 15,40 25,40 C35,40 45,35 45,28 C45,18 35,12 25,0 Z" fill="#8F1D1D"/>
+                        <path d="M25,5 C35,15 42,22 40,32 C38,36 30,38 25,38 C20,38 12,36 10,32 C8,22 15,15 25,5 Z" fill="#C29F53"/>
+                        <path d="M25,12 C20,20 18,25 20,30 C21,32 23,33 25,33 C27,33 29,32 30,30 C32,25 30,20 25,12 Z" fill="#FFFFFF"/>
+                    </g>
+
+                    <!-- Beautifully balanced Bengali subtitle in the illustration -->
+                    <text x="400" y="750" text-anchor="middle" font-family="'Hind Siliguri', sans-serif" font-size="20" font-weight="500" fill="#1F1313" letter-spacing="2">পোশাক  |  অলংকার  |  ভালোবাসায় বাঙালি</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Lotus Separator -->
+    <div class="flex items-center justify-center py-6 bg-bengal-cream">
+        <div class="h-[1px] w-24 bg-bengal-gold/40"></div>
+        <span class="mx-4 text-bengal-red">🌸</span>
+        <div class="h-[1px] w-24 bg-bengal-gold/40"></div>
+    </div>
+
+    <!-- About "Primindita" Section (Empowering Solo Women Entrepreneurship) -->
+    <section id="about" class="py-20 bg-bengal-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <!-- Left: Interactive Vector Showcase of her posing -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative p-4 bg-white border border-bengal-gold/15 rounded-3xl shadow-xl w-full max-w-[400px]">
+                        <!-- Elegant Line Drawing of a Saree Drape -->
+                        <div class="aspect-[4/5] w-full rounded-2xl overflow-hidden bg-bengal-creamdamp/40 flex items-center justify-center p-6 relative">
+                            <svg viewBox="0 0 400 500" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="200" cy="250" r="180" fill="#8F1D1D" fill-opacity="0.03" />
+                                
+                                <!-- Stylized Minimalist Saree Model Pose -->
+                                <g transform="translate(100, 40) scale(1.1)">
+                                    <!-- Crown / Bun -->
+                                    <circle cx="90" cy="50" r="22" fill="#1F1313" opacity="0.8"/>
+                                    <!-- Elegant Neck and shoulders -->
+                                    <path d="M75,90 Q90,75 105,90 L115,110 L65,110 Z" fill="#F4EDE0" stroke="#1F1313" stroke-width="2"/>
+                                    <!-- Red Saree Border (Anchol) flowing over shoulder -->
+                                    <path d="M72,110 C50,160 45,260 70,330 L105,330 C80,260 85,160 92,110 Z" fill="#8F1D1D" stroke="#1F1313" stroke-width="2"/>
+                                    <!-- Golden embroidery on Anchol -->
+                                    <path d="M70,140 Q80,145 90,140" stroke="#C29F53" stroke-width="1.5"/>
+                                    <path d="M65,190 Q78,195 88,190" stroke="#C29F53" stroke-width="1.5"/>
+                                    <path d="M60,240 Q75,245 85,240" stroke="#C29F53" stroke-width="1.5"/>
+                                    <path d="M62,290 Q72,295 82,290" stroke="#C29F53" stroke-width="1.5"/>
+
+                                    <!-- Pleats / Saree Body -->
+                                    <path d="M92,110 C110,140 135,220 120,330 L105,330 C120,220 100,140 92,110 Z" fill="#FAF6F0" stroke="#1F1313" stroke-width="1.5"/>
+                                    
+                                    <!-- Red Bindi on face -->
+                                    <circle cx="90" cy="65" r="4" fill="#8F1D1D"/>
+                                    <path d="M85,75 Q90,80 95,75" stroke="#1F1313" stroke-width="2" stroke-linecap="round"/>
+                                </g>
+                            </svg>
+                            <!-- Label over card -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-bengal-cream/90 backdrop-blur-sm border border-bengal-gold/20 p-3 rounded-xl text-center">
+                                <span class="font-bengali font-bold text-sm text-bengal-red block">প্রিমিন্দীতা নিজে (The Creator & Model)</span>
+                                <span class="font-sans text-[10px] text-bengal-charcoal/60 uppercase">Wearing: "লাল-পাড় ঢাকাই জামদানি"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Touching Bengali Editorial story -->
+                <div class="lg:col-span-7 space-y-6">
+                    <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-bengal-charcoal">
+                        একলা পথচলা, <br>
+                        <span class="text-bengal-red font-bengali">বাঙালি ঐতিহ্যের</span> বিশ্বস্ত দোসর।
+                    </h2>
+                    
+                    <div class="space-y-4 font-bengali text-base text-bengal-charcoal/90 leading-relaxed">
+                        <p>
+                            শুভকামনা জানবেন! আমি <strong>প্রিমিন্দীতা</strong>। আমার এই ছোট্ট উদ্যোগটি সম্পূর্ণ আমার একার পরিশ্রমে গড়ে উঠেছে। এই ব্যবসার পেছনে বড় কোনো কর্পোরেট টিম নেই, কোনো পেশাদার মডেল বা ফটোগ্রাফার নেই। 
+                        </p>
+                        <p class="border-l-4 border-bengal-red pl-4 italic text-bengal-red font-medium my-4 bg-bengal-red/5 py-2 pr-2 rounded-r-lg">
+                            "আমি নিজেই আমার প্রতিটি পোশাক এবং অলংকারের নকশা তৈরি করি, তাঁতিদের সাথে বসে ডিজাইন সাজাই এবং নিজেই নিজের পণ্যের মডেল হয়ে আপনাদের সামনে উপস্থাপন করি।"
+                        </p>
+                        <p>
+                            এখানে সাজানো প্রতিটি জামদানি শাড়ি, হ্যান্ডলুম কুর্তি, মাটির বা পিতলের গহনা নিখাদ বাঙালি সংস্কৃতির সাথে সম্পৃক্ত। আপনি যখন প্রিমিন্দীতা থেকে কিছু ক্রয় করেন, তখন শুধু একটি পণ্য পান না—বরং একজন নারীর স্বপ্ন, তাঁতিদের পরিশ্রম এবং নিখাদ ভালোবাসার অংশীদার হন।
+                        </p>
+                    </div>
+
+                    <!-- Personal Signature or audio aesthetic block -->
+                    <div class="pt-6 border-t border-bengal-gold/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="font-serif text-lg italic text-bengal-gold block">Yours, Primindita</span>
+                            <span class="font-bengali text-xs text-bengal-charcoal/60">ডিজাইনার, উদ্যোক্তা ও মডেল</span>
+                        </div>
+                        
+                        <!-- Direct Messenger CTA -->
+                        <a href="https://wa.me/8801700000000" target="_blank" class="inline-flex items-center gap-2 bg-bengal-charcoal hover:bg-bengal-red text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-colors duration-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            আমার সাথে কথা বলুন (WhatsApp)
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Lookbook Section (Visual Hotspots!) -->
+    <section id="lookbook" class="py-20 bg-bengal-creamdamp/40 border-y border-bengal-gold/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <span class="font-sans text-xs font-semibold text-bengal-red tracking-widest uppercase">INTERACTIVE LOOKBOOK</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-bengal-charcoal">লুকবুক • শপ দ্য লুক</h2>
+                <p class="font-bengali text-sm sm:text-base text-bengal-charcoal/70">
+                    প্রিমিন্দীতা সেজেছে তার প্রিয় সাজে। ছবির ওপর গোল হটস্পট পয়েন্টগুলো ক্লিক করে সরাসরি সেই আকর্ষণীয় শাড়ি ও জুয়েলারি বিস্তারিত দেখে থলিতে যুক্ত করুন।
+                </p>
+            </div>
+
+            <!-- Interactive Hotspot Container -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left: Big Interactive SVG Model with Glowing Hotspots -->
+                <div class="lg:col-span-7 flex justify-center">
+                    <div class="relative w-full max-w-[480px] bg-white rounded-3xl p-6 shadow-xl border border-bengal-gold/20">
+                        <div class="aspect-[3/4] rounded-2xl bg-[#FAF8F5] relative overflow-hidden flex items-center justify-center p-4">
+                            
+                            <!-- Master Hand-drawn Portrait SVG -->
+                            <svg viewBox="0 0 500 650" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="250" cy="300" r="230" fill="#8F1D1D" fill-opacity="0.02" />
+                                
+                                <!-- Woman Wearing Traditional Saree & Heavy Jewelry -->
+                                <g transform="translate(100, 40) scale(1.1)">
+                                    <!-- Beautiful hair outline -->
+                                    <path d="M150,80 C60,90 40,220 150,320" stroke="#1F1313" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M170,70 C50,75 20,240 140,350" stroke="#1F1313" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M110,340 C60,370 20,350 40,410 C55,440 140,430 190,410" stroke="#1F1313" stroke-width="2.5" stroke-linecap="round"/>
+                                    
+                                    <!-- Face profile -->
+                                    <path d="M150,80 C155,100 148,120 135,135 C125,145 118,155 118,165 C118,175 122,180 128,185 L128,192 Q118,200 124,210 L134,218 Q132,235 145,245 C160,255 175,260 190,260" stroke="#1F1313" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                    
+                                    <!-- Eye and red bindi -->
+                                    <path d="M136,150 Q144,148 150,153" stroke="#1F1313" stroke-width="2.5" fill="none"/>
+                                    <circle cx="148" cy="130" r="8" fill="#8F1D1D" />
+
+                                    <!-- Traditional Heavy Jhumka Earring (Hotspot near this) -->
+                                    <g transform="translate(182, 200) scale(1.2)" id="model-earring-graphic">
+                                        <circle cx="10" cy="10" r="8" fill="#C29F53" stroke="#1F1313" stroke-width="1.5"/>
+                                        <circle cx="10" cy="10" r="3" fill="#8F1D1D"/>
+                                        <path d="M10,18 L10,25" stroke="#1F1313" stroke-width="1.5"/>
+                                        <path d="M-2,25 C-2,18 22,18 22,25 L20,35 Z" fill="#C29F53" stroke="#1F1313" stroke-width="1.5"/>
+                                        <circle cx="2" cy="40" r="2" fill="#8F1D1D"/>
+                                        <circle cx="10" cy="42" r="2" fill="#8F1D1D"/>
+                                        <circle cx="18" cy="40" r="2" fill="#8F1D1D"/>
+                                    </g>
+
+                                    <!-- Saree Drape (Hotspot near this) -->
+                                    <path d="M190,260 C150,320 80,450 140,550" stroke="#1F1313" stroke-width="3" fill="none"/>
+                                    <!-- Royal Blue / Basanti Yellow Jamdani fabric draping over arm -->
+                                    <path d="M110,340 C50,400 30,520 100,550 L140,550 C80,520 70,400 110,340 Z" fill="#8F1D1D" fill-opacity="0.85" stroke="#1F1313" stroke-width="2"/>
+                                    <!-- Traditional floral design elements on fabric -->
+                                    <path d="M90,380 Q105,390 100,410" stroke="#C29F53" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M75,440 Q90,450 85,470" stroke="#C29F53" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M65,490 Q80,500 75,520" stroke="#C29F53" stroke-width="1.5" stroke-linecap="round"/>
+                                </g>
+                            </svg>
+
+                            <!-- HOTSPOT 1: Elegant Jhumka Earring (Top Right Ear Area) -->
+                            <div class="absolute top-[34%] left-[64%] z-20">
+                                <button onclick="highlightHotspot(5)" class="group relative flex items-center justify-center">
+                                    <span class="absolute inline-flex h-8 w-8 rounded-full bg-bengal-gold/40 hotspot-pulse"></span>
+                                    <span class="relative inline-flex rounded-full h-5 w-5 bg-bengal-gold border border-white items-center justify-center font-serif text-[10px] text-bengal-charcoal font-bold group-hover:bg-bengal-red group-hover:text-white transition-colors">১</span>
+                                    <!-- Tooltip -->
+                                    <span class="absolute bottom-full mb-2 hidden group-hover:block bg-bengal-charcoal text-white text-xs font-bengali py-1.5 px-3 rounded-lg whitespace-nowrap shadow-lg">
+                                        পিতলের ময়ূর ঝুমকো ঝুমকা
+                                    </span>
+                                </button>
+                            </div>
+
+                            <!-- HOTSPOT 2: Saree Fabric (Lower Mid Body Area) -->
+                            <div class="absolute top-[65%] left-[34%] z-20">
+                                <button onclick="highlightHotspot(1)" class="group relative flex items-center justify-center">
+                                    <span class="absolute inline-flex h-8 w-8 rounded-full bg-bengal-red/40 hotspot-pulse"></span>
+                                    <span class="relative inline-flex rounded-full h-5 w-5 bg-bengal-red border border-white items-center justify-center font-serif text-[10px] text-white font-bold group-hover:bg-bengal-gold group-hover:text-bengal-charcoal transition-colors">২</span>
+                                    <!-- Tooltip -->
+                                    <span class="absolute bottom-full mb-2 hidden group-hover:block bg-bengal-charcoal text-white text-xs font-bengali py-1.5 px-3 rounded-lg whitespace-nowrap shadow-lg">
+                                        লাল-পাড় সুতি জামদানি শাড়ি
+                                    </span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Highlighting the selected Hotspot item dynamically -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div id="hotspot-display-card" class="bg-white p-8 rounded-3xl border border-bengal-gold/20 shadow-xl transition-all duration-300 transform scale-100">
+                        <!-- Dynamic Hotspot Product info injected here -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Main E-Commerce / Product Grid Section -->
+    <section id="collection" class="py-20 bg-bengal-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Header & Filter options -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                    <span class="font-sans text-xs font-semibold text-bengal-red tracking-widest uppercase">OUR CREATIONS</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-black text-bengal-charcoal mt-1">
+                        সম্পূর্ণ সংগ্রহমালা (Collection)
+                    </h2>
+                </div>
+                
+                <!-- Pure Bengali Filter Tabs -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterProducts('all')" id="tab-all" class="tab-btn px-5 py-2 rounded-full font-bengali text-sm font-semibold border border-bengal-red bg-bengal-red text-white transition-all">
+                        সব পণ্য
+                    </button>
+                    <button onclick="filterProducts('clothing')" id="tab-clothing" class="tab-btn px-5 py-2 rounded-full font-bengali text-sm font-semibold border border-bengal-gold/20 text-bengal-charcoal hover:border-bengal-red hover:text-bengal-red transition-all">
+                        পোশাক (Clothing)
+                    </button>
+                    <button onclick="filterProducts('jewelry')" id="tab-jewelry" class="tab-btn px-5 py-2 rounded-full font-bengali text-sm font-semibold border border-bengal-gold/20 text-bengal-charcoal hover:border-bengal-red hover:text-bengal-red transition-all">
+                        অলংকার (Jewelry)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sorting & Search info bar -->
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-bengal-creamdamp/40 border border-bengal-gold/15 p-4 rounded-xl mb-8 gap-4">
+                <div class="font-bengali text-sm text-bengal-charcoal/75">
+                    মোট <span id="product-count" class="font-bold text-bengal-red text-base">6</span>টি চমৎকার ডিজাইন প্রদর্শিত হচ্ছে
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="font-bengali text-xs text-bengal-charcoal/60">ক্রম সাজান:</label>
+                    <select onchange="handleSort(this.value)" class="bg-white border border-bengal-gold/25 rounded-lg text-sm px-3 py-1 focus:outline-none focus:ring-1 focus:ring-bengal-red font-bengali">
+                        <option value="default">সাধারণ সাজানো</option>
+                        <option value="low-high">মূল্য: কম থেকে বেশি</option>
+                        <option value="high-low">মূল্য: বেশি থেকে কম</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamically populated product cards -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Shipping Features highlight section -->
+    <section class="py-12 bg-bengal-creamdamp/20 border-t border-bengal-gold/15">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                
+                <div class="space-y-3 p-4">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-bengal-red/10 text-bengal-red">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    </div>
+                    <h4 class="font-bengali text-lg font-bold text-bengal-charcoal">সারাদেশে ডেলিভারি</h4>
+                    <p class="font-bengali text-sm text-bengal-charcoal/70">সুন্দরবন ও রেডেক্স-এর মাধ্যমে বাংলাদেশের প্রতিটি প্রান্তে বিশ্বস্ত হোম ডেলিভারি।</p>
+                </div>
+
+                <div class="space-y-3 p-4 border-y md:border-y-0 md:border-x border-bengal-gold/15">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-bengal-red/10 text-bengal-red">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    </div>
+                    <h4 class="font-bengali text-lg font-bold text-bengal-charcoal">নিরাপদ মোবাইল পেমেন্ট</h4>
+                    <p class="font-bengali text-sm text-bengal-charcoal/70">বিকাশ, রকেট, নগদ অথবা ডেলিভারি পাওয়ার পর ক্যাশ অন ডেলিভারি (COD) পেমেন্ট সুবিধা।</p>
+                </div>
+
+                <div class="space-y-3 p-4">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-bengal-red/10 text-bengal-red">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h4 class="font-bengali text-lg font-bold text-bengal-charcoal">২৪/৭ কাস্টমার সাপোর্ট</h4>
+                    <p class="font-bengali text-sm text-bengal-charcoal/70">উদ্যোক্তা প্রিমিন্দীতা নিজেই কাস্টমাইজেশন ও অর্ডার সংক্রান্ত সহায়তায় সরাসরি যোগাযোগ রাখেন।</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Area -->
+    <footer class="bg-bengal-charcoal text-bengal-cream py-16 border-t border-bengal-gold/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-12">
+            
+            <!-- Left Branding -->
+            <div class="md:col-span-5 space-y-4">
+                <span class="font-serif text-3xl font-extrabold text-bengal-gold font-bengali tracking-wider">প্রিমিন্দীতা</span>
+                <p class="font-bengali text-sm text-bengal-cream/60 max-w-sm leading-relaxed">
+                    বাঙালির চিরায়ত সংস্কৃতি ও নারীর নিখাদ সৌন্দর্যকে ফুটিয়ে তুলতে আমাদের ক্ষুদ্র ও আন্তরিক প্রচেষ্টা। প্রতিটি শাড়ি ও গহনা ডিজাইনার প্রিমিন্দীতার নিজস্ব ভাবনায় নির্মিত।
+                </p>
+                <div class="flex items-center space-x-4 pt-2">
+                    <a href="https://facebook.com" target="_blank" class="text-bengal-cream/70 hover:text-bengal-gold transition-colors p-2 bg-white/5 rounded-full">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"></path></svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="text-bengal-cream/70 hover:text-bengal-gold transition-colors p-2 bg-white/5 rounded-full">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Middle Columns (Quick Links) -->
+            <div class="md:col-span-3 space-y-4">
+                <h5 class="font-bengali text-base font-bold text-bengal-gold tracking-wide">গুরুত্বপূর্ণ লিংকসমূহ</h5>
+                <ul class="space-y-2 text-sm font-bengali text-bengal-cream/60">
+                    <li><a href="#hero" class="hover:text-bengal-gold transition-colors">হোমপেজ</a></li>
+                    <li><a href="#about" class="hover:text-bengal-gold transition-colors">প্রিমিন্দীতার কাহিনী</a></li>
+                    <li><a href="#lookbook" class="hover:text-bengal-gold transition-colors">লুকবুক গ্যালারি</a></li>
+                    <li><a href="#collection" class="hover:text-bengal-gold transition-colors">সব প্রোডাক্টস</a></li>
+                </ul>
+            </div>
+
+            <!-- Right Columns (Newsletter / Contact) -->
+            <div class="md:col-span-4 space-y-4">
+                <h5 class="font-bengali text-base font-bold text-bengal-gold tracking-wide">যোগাযোগ ও খবরাখবর</h5>
+                <p class="font-bengali text-xs text-bengal-cream/60 leading-relaxed">
+                    নতুন শাড়ি এবং ডিজাইনার কালেকশন লঞ্চ হলে সবার আগে আপডেট পেতে ইমেইল সাবস্ক্রাইব করুন।
+                </p>
+                <div class="flex max-w-sm rounded-lg overflow-hidden border border-bengal-gold/20">
+                    <input type="email" id="newsletter-email" placeholder="আপনার ইমেইল..." class="bg-white/10 text-white placeholder-bengal-cream/40 text-xs px-3 py-2.5 focus:outline-none w-full font-sans">
+                    <button onclick="subscribeNewsletter()" class="bg-bengal-gold hover:bg-bengal-goldlight text-bengal-charcoal px-4 py-2.5 font-bengali font-bold text-xs transition-colors whitespace-nowrap">
+                        সাবস্ক্রাইব
+                    </button>
+                </div>
+                <div class="pt-2 text-xs font-bengali text-bengal-cream/50 space-y-1">
+                    <p>📧 ইমেইল: info@primindita.com</p>
+                    <p>📞 ফোন / হোয়াটসঅ্যাপ: +৮৮০ ১৭০০ ০০০০০০</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-bengal-gold/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bengali text-bengal-cream/40 text-center">
+            <p>© ২০২৬ প্রিমিন্দীতা (Primindita). সর্বস্বত্ব সংরক্ষিত।</p>
+            <p>ডিজাইন ও ভালোবাসা সহকারে বাঙালি ঐতিহ্যকে উৎসর্গীকৃত।</p>
+        </div>
+    </footer>
+
+    <!-- Core Business Logic in JS -->
+    <script>
+        // Core Product Database
+        const products = [
+            {
+                id: 1,
+                title: "লাল-পাড় সুতি ঢাকাই জামদানি শাড়ি",
+                titleEn: "Lal-Paar Cotton Dhakai Jamdani Saree",
+                price: 4500,
+                category: "clothing",
+                description: "ঐতিহ্যবাহী লাল পাড় ও দুধ সাদা বডিতে সুতোয় ফুটিয়ে তোলা অত্যন্ত মোলায়েম সুতি ঢাকাই জামদানি। প্রিমিন্দীতার লুকবুকের অন্যতম মূল আকর্ষণ।",
+                illust: `<svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="12" fill="#8F1D1D" fill-opacity="0.05"/>
+                            <path d="M20,20 L80,20 L80,80 L20,80 Z" stroke="#8F1D1D" stroke-width="2" fill="#FAF6F0"/>
+                            <path d="M20,20 L35,20 L35,80 L20,80 Z" fill="#8F1D1D"/>
+                            <path d="M65,20 L80,20 L80,80 L65,80 Z" fill="#8F1D1D"/>
+                            <!-- Jamdani floral motifs -->
+                            <circle cx="50" cy="50" r="3" fill="#C29F53"/>
+                            <circle cx="50" cy="35" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="50" cy="65" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="35" cy="50" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="65" cy="50" r="2.5" fill="#8F1D1D"/>
+                         </svg>`,
+                features: ["১০০% সুতি সুতা", "তাঁতিদের হাতে বোনা", "৫.৫ মিটার স্ট্যান্ডার্ড সাইজ"]
+            },
+            {
+                id: 2,
+                title: "নীলাম্বরী তাঁত শাড়ি (স্বর্ণালী জরির কাজ)",
+                titleEn: "Nilambari Handloom Tant Saree",
+                price: 3200,
+                category: "clothing",
+                description: "গভীর নীল আকাশের আভা আর সোনালি জড়ির কাজের মেলবন্ধন। ঐতিহ্যবাহী তাঁতের শাড়ি, যা পরলে অসাধারণ আভিজাত্য ফুটে ওঠে।",
+                illust: `<svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="12" fill="#1E3A8A" fill-opacity="0.05"/>
+                            <path d="M20,20 L80,20 L80,80 L20,80 Z" stroke="#1E3A8A" stroke-width="2" fill="#1E3A8A"/>
+                            <path d="M20,20 L30,20 L30,80 L20,80 Z" fill="#C29F53"/>
+                            <path d="M70,20 L80,20 L80,80 L70,80 Z" fill="#C29F53"/>
+                            <!-- Star/Gold motifs -->
+                            <polygon points="50,42 53,48 59,50 53,52 50,58 47,52 41,50 47,48" fill="#C29F53"/>
+                         </svg>`,
+                features: ["প্রিমিয়াম কটন হ্যান্ডলুম", "সোনালি জড়ি পাড়", "লুকবুক স্পেশাল কালেকশন"]
+            },
+            {
+                id: 3,
+                title: "বসন্ত উৎসব হ্যান্ড-এমব্রয়ডারি কুর্তি",
+                titleEn: "Basanta Utsav Hand-embroidered Kurti",
+                price: 1850,
+                category: "clothing",
+                description: "উজ্জ্বল বাসন্তী হলুদ কাপড়ে লাল ও সবুজ সুতোর নিখুঁত ভরাট নকশার হস্তশিল্পজাত কুর্তি। বসন্ত বরণ বা যেকোনো ঘরোয়া উৎসবের দারুণ মানানসই।",
+                illust: `<svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="12" fill="#FBBF24" fill-opacity="0.05"/>
+                            <!-- Kurti Silhouette -->
+                            <path d="M30,25 L70,25 L75,85 L25,85 Z" fill="#FBBF24" stroke="#1F1313" stroke-width="2"/>
+                            <path d="M42,25 C42,32 58,32 58,25 Z" fill="#8F1D1D"/>
+                            <!-- Flowers embroidered -->
+                            <circle cx="50" cy="45" r="4" fill="#8F1D1D"/>
+                            <circle cx="43" cy="55" r="3" fill="#10B981"/>
+                            <circle cx="57" cy="55" r="3" fill="#10B981"/>
+                         </svg>`,
+                features: ["১০০% আরামদায়ক সুতি কাপড়", "হাতে তৈরি নকশা ও এমব্রয়ডারি", "যেকোনো সাইজে কাস্টমাইজযোগ্য"]
+            },
+            {
+                id: 4,
+                title: "মাটির গহনা 'মহুয়া' চোকার ও কানপাশা সেট",
+                titleEn: "Terracotta 'Mohua' Choker Jewelry Set",
+                price: 850,
+                category: "jewelry",
+                description: "হাতে গড়া এবং কাঠকয়লার আগুনে পোড়ানো খাঁটি লালমাটির ওপর রঙ করা বৈচিত্র্যময় চোকার সেট। গ্রামীণ বাংলার লোকশিল্পের স্পর্শ।",
+                illust: `<svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="12" fill="#C2410C" fill-opacity="0.05"/>
+                            <!-- Clay Necklace -->
+                            <path d="M25,40 C25,65 75,65 75,40" stroke="#C2410C" stroke-width="6" stroke-linecap="round"/>
+                            <!-- Small pendant drops -->
+                            <circle cx="35" cy="55" r="4" fill="#8F1D1D"/>
+                            <circle cx="50" cy="58" r="5" fill="#8F1D1D"/>
+                            <circle cx="65" cy="55" r="4" fill="#8F1D1D"/>
+                            <circle cx="50" cy="58" r="2" fill="#C29F53"/>
+                         </svg>`,
+                features: ["খাঁটি পোড়ামাটি (Terracotta)", "অ্যালার্জি মুক্ত রং", "নেকলেস ও কানের দুলসহ ফুল সেট"]
+            },
+            {
+                id: 5,
+                title: "পিতলের ময়ূর ঐতিহ্যবাহী ঝুমকো ঝুমকা",
+                titleEn: "Antique Brass Peacock Jhumka",
+                price: 1120,
+                category: "jewelry",
+                description: "ময়ূরের ডানা ছড়ানো শৈল্পিক মোটিফে নকশা করা রাজকীয় পিতলের ঝুলন্ত কানের দুল। প্রিমিন্দীতা নিজের প্রায় সব সাজের সাথেই এটি পরে থাকে।",
+                illust: `<svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="12" fill="#C29F53" fill-opacity="0.05"/>
+                            <!-- Beautiful hanging earring -->
+                            <circle cx="50" cy="30" r="10" fill="#C29F53" stroke="#1F1313" stroke-width="2"/>
+                            <circle cx="50" cy="30" r="4" fill="#8F1D1D"/>
+                            <path d="M50,40 L50,55" stroke="#1F1313" stroke-width="2"/>
+                            <!-- Dome -->
+                            <path d="M35,55 C35,45 65,45 65,55 L62,68 C62,68 55,72 50,72 C45,72 38,68 38,68 Z" fill="#C29F53" stroke="#1F1313" stroke-width="2"/>
+                            <circle cx="40" cy="78" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="50" cy="80" r="2.5" fill="#8F1D1D"/>
+                            <circle cx="60" cy="78" r="2.5" fill="#8F1D1D"/>
+                         </svg>`,
+                features: ["অ্যান্টিক ফিনিশ নিখাদ পিতল (Brass)", "হালকা ও দীর্ঘক্ষণ পরার উপযোগী", "প্রিমিন্দীতার সিগনেচার কালেকশন"]
+            },
+            {
+                id: 6,
+                title: "রুপোর ঐতিহ্যবাহী হাঁসুলি নেকলেস চোকার",
+                titleEn: "Oxidized Silver Hasli Neckpiece",
+                price: 1950,
+                category: "jewelry",
+                description: "অক্সিডাইজড রুপোলী রঙের ধাতব হাঁসুলি। গ্রামীণ বাংলার সাঁওতাল ও গ্রামীণ নারীদের ঐতিহ্যবাহী হাঁসুলির আধুনিক চমৎকার সংস্করণ।",
+                illust: `<svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="12" fill="#9CA3AF" fill-opacity="0.05"/>
+                            <!-- Hasli curve -->
+                            <path d="M25,35 C35,65 65,65 75,35" stroke="#4B5563" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M25,35 C35,65 65,65 75,35" stroke="#9CA3AF" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Carvings -->
+                            <path d="M40,51 L40,55" stroke="#1F1313" stroke-width="1.5"/>
+                            <path d="M50,53 L50,57" stroke="#1F1313" stroke-width="1.5"/>
+                            <path d="M60,51 L60,55" stroke="#1F1313" stroke-width="1.5"/>
+                         </svg>`,
+                features: ["অক্সিডাইজড মেটাল অ্যালয়", "সহজে কালচে হয় না", "যেকোনো শাড়ির সাথে মানানসই আধুনিক চোকার"]
+            }
+        ];
+
+        // Reactive Application State
+        let cart = [];
+        let activeCategory = "all";
+        let searchQuery = "";
+        let sortBy = "default";
+
+        // Global Dom Elements loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            highlightHotspot(5); // Default display the iconic Jhumka hotspot
+            updateCartUI();
+        });
+
+        // Toast alert utility (Replaces native alert)
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `transform translate-y-2 opacity-0 transition-all duration-300 ease-out font-bengali p-4 rounded-xl shadow-lg border text-sm max-w-sm pointer-events-auto flex items-center justify-between gap-3 ${
+                type === 'success' 
+                ? 'bg-white border-emerald-200 text-emerald-800 shadow-emerald-100' 
+                : 'bg-white border-bengal-gold/20 text-bengal-charcoal shadow-bengal-gold/5'
+            }`;
+            
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="text-base">${type === 'success' ? '🌸' : '✨'}</span>
+                    <span>${message}</span>
+                </div>
+                <button class="text-bengal-charcoal/40 hover:text-bengal-charcoal" onclick="this.parentElement.remove()">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+            
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Render products into grid with current filters
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            let filtered = products.filter(p => {
+                const matchesCat = activeCategory === "all" || p.category === activeCategory;
+                const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.titleEn.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            // Sorting
+            if (sortBy === "low-high") {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortBy === "high-low") {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            document.getElementById('product-count').innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20 text-bengal-charcoal/60 space-y-2">
+                        <span class="text-3xl">🌸</span>
+                        <p class="font-bengali text-lg">দুঃখিত, কোনো পণ্য পাওয়া যায়নি!</p>
+                        <p class="text-xs font-sans">Try modifying your search or filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => `
+                <div class="group bg-white rounded-3xl border border-bengal-gold/15 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-bengal-gold/5 flex flex-col h-full relative">
+                    <!-- Saree/Jewelry Beautiful Illustration Cover -->
+                    <div class="aspect-[4/5] bg-gradient-to-br from-bengal-creamdamp/30 to-white flex items-center justify-center p-8 relative overflow-hidden">
+                        <div class="w-40 h-40 transform group-hover:scale-105 transition-transform duration-500">
+                            ${product.illust}
+                        </div>
+                        <div class="absolute inset-0 bg-bengal-charcoal/5 group-hover:bg-bengal-charcoal/0 transition-colors pointer-events-none"></div>
+                        
+                        <!-- Model attribution badge -->
+                        <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm border border-bengal-gold/20 text-[10px] font-bengali py-1 px-2.5 rounded-full text-bengal-red font-semibold">
+                            প্রিমিন্দীতা কালেকশন
+                        </span>
+                    </div>
+
+                    <!-- Content description -->
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4 border-t border-bengal-gold/10">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-sans text-bengal-gold font-bold uppercase tracking-wider">${product.category === 'clothing' ? 'পোশাক' : 'অলংকার'}</span>
+                            <h3 class="font-bengali text-lg font-bold text-bengal-charcoal group-hover:text-bengal-red transition-colors line-clamp-1">
+                                ${product.title}
+                            </h3>
+                            <p class="font-bengali text-xs text-bengal-charcoal/60 line-clamp-2 leading-relaxed">
+                                ${product.description}
+                            </p>
+                        </div>
+
+                        <div class="pt-2 flex items-center justify-between">
+                            <div class="font-bengali">
+                                <span class="text-xs text-bengal-charcoal/50 block">মূল্য (Price)</span>
+                                <span class="text-xl font-extrabold text-bengal-red">৳ ${product.price.toLocaleString('bn-BD')}</span>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <button onclick="openQuickView(${product.id})" class="text-bengal-charcoal hover:bg-bengal-creamdamp p-2.5 rounded-xl border border-bengal-gold/20 transition-all" title="Quick View">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                </button>
+                                <button onclick="addToCart(${product.id})" class="bg-bengal-red hover:bg-bengal-reddark text-white px-4 py-2.5 rounded-xl font-bengali text-sm font-semibold transition-all flex items-center gap-1.5">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    থলিতে নিন
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search Handlers
+        function handleSearch(val) {
+            searchQuery = val;
+            renderProducts();
+        }
+
+        // Sort Handlers
+        function handleSort(val) {
+            sortBy = val;
+            renderProducts();
+        }
+
+        // Category Tab Handlers
+        function filterProducts(cat) {
+            activeCategory = cat;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-bengal-red', 'text-white');
+                btn.classList.add('border-bengal-gold/20', 'text-bengal-charcoal');
+            });
+
+            const activeBtn = document.getElementById(`tab-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-bengal-red', 'text-white');
+                activeBtn.classList.remove('border-bengal-gold/20', 'text-bengal-charcoal');
+            }
+            renderProducts();
+        }
+
+        // Hotspot interaction details showcase
+        function highlightHotspot(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const card = document.getElementById('hotspot-display-card');
+            
+            // Add miniature fade out and back in
+            card.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                card.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-bengal-gold/10 pb-3">
+                            <span class="text-xs font-sans text-bengal-gold uppercase tracking-wider font-bold">লুকবুক আইটেম (Featured Model Wear)</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-bengal-red/10 text-bengal-red">প্রিমিন্দীতার পছন্দ</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-bengal-cream p-2 rounded-xl border border-bengal-gold/15 flex items-center justify-center flex-shrink-0">
+                                ${product.illust}
+                            </div>
+                            <div class="space-y-1">
+                                <h4 class="font-bengali text-base font-bold text-bengal-charcoal leading-snug">${product.title}</h4>
+                                <span class="font-bengali text-lg font-black text-bengal-red">৳ ${product.price.toLocaleString('bn-BD')}</span>
+                            </div>
+                        </div>
+                        <p class="font-bengali text-xs text-bengal-charcoal/80 leading-relaxed">
+                            ${product.description}
+                        </p>
+                        <div class="pt-3 border-t border-bengal-gold/10 flex flex-col gap-2">
+                            <button onclick="addToCart(${product.id})" class="w-full bg-bengal-red hover:bg-bengal-reddark text-white py-2.5 rounded-xl font-bengali text-xs font-semibold tracking-wide transition-colors flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                এই লুকটি কিনুন (Add to Cart)
+                            </button>
+                        </div>
+                    </div>
+                `;
+                card.classList.remove('scale-95', 'opacity-0');
+            }, 150);
+        }
+
+        // Sizing & Quick View logic
+        function openQuickView(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const modal = document.getElementById('quickview-modal');
+            const content = document.getElementById('quickview-content');
+
+            content.innerHTML = `
+                <!-- Image Side -->
+                <div class="md:w-1/2 bg-gradient-to-br from-bengal-creamdamp/40 to-white flex items-center justify-center p-8 relative min-h-[300px]">
+                    <div class="w-48 h-48 drop-shadow-lg">
+                        ${product.illust}
+                    </div>
+                    <button onclick="closeQuickView()" class="absolute top-4 left-4 bg-white/80 p-1.5 rounded-full text-bengal-charcoal hover:text-bengal-red md:hidden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Info Side -->
+                <div class="md:w-1/2 p-8 flex flex-col justify-between">
+                    <button onclick="closeQuickView()" class="absolute top-4 right-4 bg-bengal-cream hover:bg-bengal-creamdamp p-1.5 rounded-full text-bengal-charcoal hover:text-bengal-red hidden md:block">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-xs font-sans text-bengal-gold font-bold uppercase tracking-wider">${product.category === 'clothing' ? 'পোশাক' : 'অলংকার'}</span>
+                            <h3 class="font-bengali text-xl font-bold text-bengal-charcoal mt-1 leading-snug">${product.title}</h3>
+                            <p class="text-[10px] font-sans text-bengal-charcoal/50 uppercase tracking-widest">${product.titleEn}</p>
+                        </div>
+
+                        <p class="font-bengali text-xs text-bengal-charcoal/80 leading-relaxed">
+                            ${product.description}
+                        </p>
+
+                        <div class="space-y-2">
+                            <span class="text-xs font-semibold font-bengali text-bengal-red">পণ্যের বিশদ বিবরণী:</span>
+                            <ul class="list-disc pl-5 text-xs text-bengal-charcoal/70 space-y-1 font-bengali">
+                                ${product.features.map(f => `<li>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-bengal-gold/10 flex items-center justify-between gap-4 mt-6">
+                        <div>
+                            <span class="text-xs text-bengal-charcoal/50 block font-bengali">বর্তমান মূল্য</span>
+                            <span class="text-2xl font-black text-bengal-red font-bengali">৳ ${product.price.toLocaleString('bn-BD')}</span>
+                        </div>
+                        <button onclick="addToCart(${product.id}); closeQuickView();" class="bg-bengal-red hover:bg-bengal-reddark text-white px-6 py-3 rounded-xl font-bengali font-bold text-sm tracking-wide transition-colors flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            থলিতে যোগ করুন
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickview-modal');
+            const content = document.getElementById('quickview-content');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Cart State & Interactions
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.product.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.title}" থলিতে সফলভাবে যোগ করা হয়েছে!`);
+        }
+
+        function updateCartQuantity(productId, change) {
+            const itemIndex = cart.findIndex(item => item.product.id === productId);
+            if (itemIndex === -1) return;
+
+            cart[itemIndex].quantity += change;
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const badge = document.getElementById('cart-count-badge');
+            const totalDisplay = document.getElementById('cart-total');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+
+            badge.innerText = totalCount;
+            totalDisplay.innerText = `৳ ${totalPrice.toLocaleString('bn-BD')}`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-bengal-charcoal/50 space-y-2">
+                        <span class="text-3xl">🌸</span>
+                        <p class="font-bengali text-lg">আপনার থলি এখন শূন্য!</p>
+                        <p class="text-xs font-sans">Explore the collection to add beautiful creations.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 bg-white p-3 rounded-xl border border-bengal-gold/15 relative">
+                    <div class="w-16 h-16 bg-bengal-cream p-1 rounded-lg flex items-center justify-center flex-shrink-0">
+                        ${item.product.illust}
+                    </div>
+                    <div class="flex-1 space-y-1">
+                        <h4 class="font-bengali text-sm font-bold text-bengal-charcoal leading-snug line-clamp-1">${item.product.title}</h4>
+                        <span class="font-bengali text-xs text-bengal-charcoal/50 block">৳ ${item.product.price.toLocaleString('bn-BD')}</span>
+                        
+                        <div class="flex items-center justify-between pt-1">
+                            <!-- Quantity Controls -->
+                            <div class="flex items-center border border-bengal-gold/20 rounded-lg overflow-hidden">
+                                <button onclick="updateCartQuantity(${item.product.id}, -1)" class="px-2 py-0.5 bg-bengal-cream text-bengal-charcoal hover:bg-bengal-creamdamp font-bold text-xs">-</button>
+                                <span class="px-3 py-0.5 text-xs font-sans font-bold bg-white">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.product.id}, 1)" class="px-2 py-0.5 bg-bengal-cream text-bengal-charcoal hover:bg-bengal-creamdamp font-bold text-xs">+</button>
+                            </div>
+                            
+                            <span class="font-bengali text-sm font-bold text-bengal-red">৳ ${(item.product.price * item.quantity).toLocaleString('bn-BD')}</span>
+                        </div>
+                    </div>
+                    <button onclick="removeCartItem(${item.product.id})" class="absolute top-2 right-2 text-bengal-charcoal/30 hover:text-bengal-red p-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeCartItem(productId) {
+            cart = cart.filter(item => item.product.id !== productId);
+            updateCartUI();
+            showToast("পণ্যটি থলি থেকে সরিয়ে ফেলা হয়েছে।", "info");
+        }
+
+        // Checkout & Ordering Wizards
+        function openCheckout() {
+            if (cart.length === 0) {
+                showToast("অর্ডার করার আগে দয়া করে থলিতে অন্ততঃ একটি পণ্য যোগ করুন।", "info");
+                return;
+            }
+            toggleCart(); // Close Cart drawer
+            const modal = document.getElementById('checkout-modal');
+            const summaryContainer = document.getElementById('checkout-summary-items');
+            const summaryTotal = document.getElementById('checkout-summary-total');
+
+            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+
+            summaryContainer.innerHTML = cart.map(item => `
+                <div class="flex justify-between">
+                    <span>${item.product.title} x ${item.quantity}</span>
+                    <span class="font-sans font-medium">৳ ${(item.product.price * item.quantity).toLocaleString('bn-BD')}</span>
+                </div>
+            `).join('');
+
+            summaryTotal.innerText = `৳ ${totalPrice.toLocaleString('bn-BD')}`;
+            modal.classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function handlePlaceOrder(event) {
+            event.preventDefault();
+            const form = event.target;
+            const name = form.elements[0].value;
+            const phone = form.elements[1].value;
+            const address = form.elements[2].value;
+
+            // Simple validation and success celebration
+            showToast(`ধন্যবাদ ${name}! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।`, "success");
+            
+            // Clear cart
+            cart = [];
+            updateCartUI();
+            closeCheckout();
+            form.reset();
+
+            // Open simulated confirmation modal or success message in a beautiful Toast
+            setTimeout(() => {
+                showToast("প্রিমিন্দীতা আপনার সাথে শিগগিরই যোগাযোগ করবেন। ভালো থাকুন!", "success");
+            }, 1000);
+        }
+
+        // WhatsApp Custom Message Direct Order (Very useful for traditional local boutiques)
+        function orderViaWhatsApp() {
+            if (cart.length === 0) {
+                showToast("অর্ডার করার আগে অন্ততঃ একটি পণ্য থলিতে যোগ করুন।", "info");
+                return;
+            }
+
+            let message = `নমস্কার প্রিমিন্দীতা দিদি, আমি আপনার ওয়েবসাইট থেকে এই প্রোডাক্টগুলি অর্ডার করতে চাই:\n\n`;
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.product.title} (Qty: ${item.quantity}) - ৳ ${(item.product.price * item.quantity).toLocaleString('bn-BD')}\n`;
+            });
+            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+            message += `\n*সর্বমোট মূল্য:* ৳ ${totalPrice.toLocaleString('bn-BD')}\n\nঅনুগ্রহ করে অর্ডারটি নিশ্চিত করুন।`;
+
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/8801700000000?text=${encoded}`, '_blank');
+        }
+
+        // Mobile Menu Toggling
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('-translate-x-full');
+        }
+
+        // Newsletter subscription simulation
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletter-email').value;
+            if (!email) {
+                showToast("দয়া করে একটি সঠিক ইমেইল আইডি দিন।", "info");
+                return;
+            }
+            showToast("প্রিমিন্দীতার পরিবারে আপনাকে স্বাগতম! আপনি সফলভাবে সাবস্ক্রাইব করেছেন।", "success");
+            document.getElementById('newsletter-email').value = "";
+        }
+    </script>
+</body>
+</html>
