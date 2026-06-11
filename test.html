@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer State Testing Dashboard | Primindita</title>
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: '#A31D1D',
+                        crimsonHover: '#801414',
+                        charcoal: '#1C1C1C',
+                        creamDark: '#FAF4E8',
+                        gold: '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-[#FDFBF7] text-charcoal min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+
+    <!-- Dashboard Main Wrapper -->
+    <main
+        class="max-w-4xl mx-auto bg-white border border-[#EADCC9] rounded-lg shadow-xl p-6 sm:p-10 relative overflow-hidden">
+        <!-- Dashed inner border lines -->
+        <div class="absolute inset-4 border border-dashed border-crimson/10 pointer-events-none rounded"></div>
+
+        <header class="text-center mb-10 relative z-10">
+            <div class="inline-flex items-center gap-2 mb-3">
+                <span class="h-px w-6 bg-gold"></span>
+                <span class="font-bn font-bold text-crimson text-xs tracking-wider uppercase">পদ্ধতিগত যাচাইকরণ</span>
+                <span class="h-px w-6 bg-gold"></span>
+            </div>
+            <h1 class="font-editorial text-3xl font-bold text-charcoal">Developer State Testing Suite</h1>
+            <p class="text-xs text-gray-400 mt-2 font-bn">Use this console to live-inspect state parameters and validate
+                persistent cart arrays across multi-page redirects.</p>
+        </header>
+
+        <!-- Dynamic State Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 mb-8">
+
+            <!-- Language State Card -->
+            <div class="border border-gray-100 bg-[#FAF4E8]/55 p-6 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-editorial text-sm font-black uppercase text-gray-500 tracking-wider">Language
+                        Parameter State</h3>
+                    <span id="state-lang-badge"
+                        class="text-[10px] font-extrabold px-2.5 py-1 rounded bg-crimson text-white uppercase font-ui">Unknown</span>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-4">Toggling the language writes the state to
+                    persistent browser storage. This ensures that redirections between different pages retain the user's
+                    preferred translations.</p>
+                <div class="flex gap-2">
+                    <button onclick="setTestLanguage('bn')"
+                        class="flex-1 py-2 bg-crimson hover:bg-crimsonHover text-white text-xs font-bold rounded transition-colors font-bn">বাংলা
+                        ফিক্স করুন</button>
+                    <button onclick="setTestLanguage('en')"
+                        class="flex-1 py-2 border border-crimson text-crimson hover:bg-crimson/5 text-xs font-bold rounded transition-colors">Force
+                        English</button>
+                </div>
+            </div>
+
+            <!-- Cart State Monitor -->
+            <div class="border border-gray-100 bg-[#FAF4E8]/55 p-6 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-editorial text-sm font-black uppercase text-gray-500 tracking-wider">Cart
+                        LocalStorage Monitor</h3>
+                    <span id="state-cart-count"
+                        class="text-[10px] font-extrabold px-2.5 py-1 rounded bg-charcoal text-white uppercase font-ui">0
+                        Items</span>
+                </div>
+                <div id="state-cart-json"
+                    class="bg-charcoal text-[#A8FFB2] p-3 rounded font-mono text-[10px] h-24 overflow-y-auto mb-4 border border-black select-all">
+                    []
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="injectMockProducts()"
+                        class="flex-1 py-2 bg-gold hover:bg-yellow-600 text-charcoal font-bold text-xs rounded transition-colors">Inject
+                        Mock Items</button>
+                    <button onclick="clearTestCart()"
+                        class="flex-1 py-2 border border-charcoal text-charcoal hover:bg-charcoal/5 text-xs font-bold rounded transition-colors">Empty
+                        Cart</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Dynamic Message Generator Simulator -->
+        <div class="border border-[#EADCC9] rounded-lg p-6 relative z-10 mb-8 bg-[#FAF4E8]/20">
+            <h3 class="font-editorial text-base font-bold text-charcoal mb-4">WhatsApp Order Compilation Simulator</h3>
+            <p class="text-xs text-gray-400 mb-6 font-bn">Simulate a customer order and review what the pre-formatted
+                WhatsApp string output will look like in the active translation mode before it is passed to the browser
+                APIs.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+
+                <!-- Input Panel -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Customer
+                            Name</label>
+                        <input type="text" id="sim-name" value="Ananya Roy"
+                            class="w-full px-3 py-2 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-crimson font-bn bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Mobile
+                            Number</label>
+                        <input type="text" id="sim-phone" value="01712345678"
+                            class="w-full px-3 py-2 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-crimson font-bn bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Detailed
+                            Address</label>
+                        <textarea id="sim-address" rows="2"
+                            class="w-full px-3 py-2 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-crimson font-bn bg-white leading-relaxed">House 12, Road 4, Dhanmondi, Dhaka</textarea>
+                    </div>
+                    <div>
+                        <button onclick="compileMessagePreview()"
+                            class="w-full py-2.5 bg-crimson hover:bg-crimsonHover text-white text-xs font-bold rounded transition-all uppercase tracking-wider shadow-sm">Compile
+                            WhatsApp Message</button>
+                    </div>
+                </div>
+
+                <!-- Live Output Panel -->
+                <div class="flex flex-col h-full">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Compiled
+                        Message Preview</label>
+                    <textarea id="sim-message-output" readonly
+                        class="flex-1 w-full p-3 bg-charcoal text-[#00FF66] border border-black rounded font-mono text-[10px] min-h-[190px] leading-relaxed resize-none focus:outline-none"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Notification Message Box (Avoids native alert blockages) -->
+        <div id="test-notification"
+            class="hidden fixed bottom-6 right-6 bg-charcoal text-white text-xs font-bold rounded shadow-lg py-3 px-5 border-l-4 border-gold z-50 animate-fade-in flex items-center gap-3">
+            <span class="text-gold">★</span>
+            <span id="test-notification-text">Action Executed Successfully</span>
+        </div>
+
+        <!-- Index Pages Redirect links -->
+        <div class="flex flex-wrap justify-center gap-3 relative z-10 pt-4 border-t border-gray-100">
+            <a href="index.html"
+                class="px-4 py-2 border border-gray-200 hover:border-crimson hover:text-crimson text-xs font-semibold rounded bg-white transition-colors">Home
+                Page</a>
+            <a href="shop.html"
+                class="px-4 py-2 border border-gray-200 hover:border-crimson hover:text-crimson text-xs font-semibold rounded bg-white transition-colors">Shop
+                Catalog</a>
+            <a href="lookbook.html"
+                class="px-4 py-2 border border-gray-200 hover:border-crimson hover:text-crimson text-xs font-semibold rounded bg-white transition-colors">Interactive
+                Lookbook</a>
+            <a href="checkout.html"
+                class="px-4 py-2 border border-gray-200 hover:border-crimson hover:text-crimson text-xs font-semibold rounded bg-white transition-colors">Checkout
+                Form</a>
+        </div>
+
+    </main>
+
+    <!-- Script Blocks -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        /**
+         * State Controller functions
+         */
+        function updateDashboardUI() {
+            // Language Check
+            const activeLang = localStorage.getItem("primindita_lang") || "bn";
+            const langBadge = document.getElementById("state-lang-badge");
+            if (langBadge) {
+                langBadge.textContent = activeLang === "bn" ? "Bengali (BN)" : "English (EN)";
+            }
+
+            // Cart Check
+            const cartItems = window.Cart ? window.Cart.getCart() : [];
+            const countBadge = document.getElementById("state-cart-count");
+            const jsonField = document.getElementById("state-cart-json");
+
+            if (countBadge) {
+                countBadge.textContent = `${cartItems.length} Products`;
+            }
+            if (jsonField) {
+                jsonField.textContent = JSON.stringify(cartItems, null, 2);
+            }
+        }
+
+        /**
+         * Set custom language state values
+         */
+        function setTestLanguage(lang) {
+            localStorage.setItem("primindita_lang", lang);
+            updateDashboardUI();
+            showNotification(`Language explicitly set to: ${lang.toUpperCase()}`);
+        }
+
+        /**
+         * Inject fully populated mock arrays for checkout processing validation
+         */
+        function injectMockProducts() {
+            if (!window.Cart) return;
+
+            // Clear previous and inject standard item set
+            window.Cart.clearCart();
+            window.Cart.addToCart("saree-jamdani-01", 1);
+            window.Cart.addToCart("jewelry-jhumka-01", 2);
+            window.Cart.addToCart("jewelry-bala-03", 1);
+
+            updateDashboardUI();
+            showNotification("Successfully seeded mock cart with sarees and accessories!");
+        }
+
+        /**
+         * Delete all cart state properties
+         */
+        function clearTestCart() {
+            if (window.Cart) {
+                window.Cart.clearCart();
+            }
+            updateDashboardUI();
+            showNotification("Cart array successfully reset to empty state.");
+        }
+
+        /**
+         * Compiles simulated WhatsApp order package text
+         */
+        function compileMessagePreview() {
+            const name = document.getElementById("sim-name").value.trim();
+            const phone = document.getElementById("sim-phone").value.trim();
+            const address = document.getElementById("sim-address").value.trim();
+
+            const cart = window.Cart ? window.Cart.getCart() : [];
+            if (cart.length === 0) {
+                document.getElementById("sim-message-output").value = "--- ERROR ---\nYour shopping cart is currently empty. Please inject mock products or add items from the catalog first to reviewCompiled output.";
+                return;
+            }
+
+            const lang = localStorage.getItem("primindita_lang") || "bn";
+            const isBn = lang === "bn";
+
+            let itemsBlock = "";
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                const product = window.products.find(p => p.id === item.id);
+                if (!product) return;
+                const title = isBn ? product.titleBn : product.titleEn;
+                itemsBlock += `${index + 1}. ${title} (Code: ${product.id}) × ${item.qty} Qty\n`;
+                subtotal += product.price * item.qty;
+            });
+
+            const shippingFee = 80; // Standard Dhaka
+            const grandTotal = subtotal + shippingFee;
+
+            let compiledText = "";
+            if (isBn) {
+                compiledText =
+                    `নমস্কার প্রিমিন্দীতা! আমি নিম্নোক্ত ঐতিহ্যবাহী শাড়ি / গহনা অর্ডার করতে চাই:\n\n` +
+                    `📦 নির্বাচিত পণ্যসমূহ:\n` +
+                    `${itemsBlock}\n` +
+                    `💳 বিল বিবরণী:\n` +
+                    `• পণ্যের মোট মূল্য: ৳ ${subtotal.toLocaleString('en-IN')}\n` +
+                    `• ডেলিভারি চার্জ: ৳ ${shippingFee}\n` +
+                    `• সর্বমোট বিল: ৳ ${grandTotal.toLocaleString('en-IN')}\n\n` +
+                    `👤 গ্রাহক পরিচিতি ও ঠিকানা:\n` +
+                    `• নাম: ${name}\n` +
+                    `• মোবাইল নম্বর: ${phone}\n` +
+                    `• ঠিকানা: ${address}\n` +
+                    `• ডেলিভারি এলাকা: ঢাকা সিটি\n` +
+                    `• পেমেন্ট মেথড: ক্যাশ অন ডেলিভারি\n\n` +
+                    `অনুগ্রহ করে আমার অর্ডারটি নিশ্চিত করে ডেলিভারি প্রক্রিয়া শুরু করার তথ্য দিন। ধন্যবাদ!`;
+            } else {
+                compiledText =
+                    `Hello Primindita! I would like to place an order for the following artisanal selections:\n\n` +
+                    `📦 Selected Items:\n` +
+                    `${itemsBlock}\n` +
+                    `💳 Bill Breakdown:\n` +
+                    `• Subtotal: BDT ${subtotal.toLocaleString('en-IN')}\n` +
+                    `• Delivery Fee: BDT ${shippingFee}\n` +
+                    `• Grand Total: BDT ${grandTotal.toLocaleString('en-IN')}\n\n` +
+                    `👤 Delivery Address Details:\n` +
+                    `• Customer Name: ${name}\n` +
+                    `• Phone Number: ${phone}\n` +
+                    `• Delivery Address: ${address}\n` +
+                    `• Region Zone: Inside Dhaka\n` +
+                    `• Payment Method: Cash on Delivery\n\n` +
+                    `Please verify my order details and guide me on the delivery timeline. Thank you!`;
+            }
+
+            document.getElementById("sim-message-output").value = compiledText;
+            showNotification("Compiled and formatted message output successfully!");
+        }
+
+        /**
+         * Beautiful notifications panel
+         */
+        function showNotification(text) {
+            const notif = document.getElementById("test-notification");
+            const notifText = document.getElementById("test-notification-text");
+            if (!notif || !notifText) return;
+
+            notifText.textContent = text;
+            notif.classList.remove("hidden");
+
+            setTimeout(() => {
+                notif.classList.add("hidden");
+            }, 3500);
+        }
+
+        // Initialize state view on boot
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDashboardUI();
+            compileMessagePreview();
+        });
+    </script>
+</body>
+
+</html>

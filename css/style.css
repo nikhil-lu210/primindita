@@ -1,0 +1,238 @@
+/* Primindita Boutique Stylesheet
+  Curated Palette: Bengal Crimson (#A31D1D), Warm Cream (#FDFBF7), Gold (#D4AF37), Charcoal (#1C1C1C)
+  Fonts: Playfair Display (Editorial), Hind Siliguri (Bengali), Montserrat (UI/English)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+    --begal-crimson: #A31D1D;
+    --begal-crimson-hover: #801414;
+    --begal-crimson-light: rgba(163, 29, 29, 0.1);
+    --warm-cream: #FDFBF7;
+    --warm-cream-dark: #FAF4E8;
+    --elegant-gold: #D4AF37;
+    --elegant-gold-light: #F3E5AB;
+    --deep-charcoal: #1C1C1C;
+    --deep-charcoal-light: #4A4A4A;
+
+    --font-bengali: 'Hind Siliguri', sans-serif;
+    --font-editorial: 'Playfair Display', serif;
+    --font-sans: 'Montserrat', sans-serif;
+}
+
+/* Base resets and defaults */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--warm-cream);
+    color: var(--deep-charcoal);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--warm-cream-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--begal-crimson);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--deep-charcoal);
+}
+
+/* Selection Color */
+::selection {
+    background-color: var(--begal-crimson);
+    color: var(--warm-cream);
+}
+
+/* Font Families Utility */
+.font-bn {
+    font-family: var(--font-bengali);
+    letter-spacing: normal;
+}
+
+.font-editorial {
+    font-family: var(--font-editorial);
+}
+
+.font-ui {
+    font-family: var(--font-sans);
+}
+
+/* Text Colors */
+.text-crimson {
+    color: var(--begal-crimson);
+}
+
+.text-gold {
+    color: var(--elegant-gold);
+}
+
+.text-charcoal {
+    color: var(--deep-charcoal);
+}
+
+.bg-cream-dark {
+    background-color: var(--warm-cream-dark);
+}
+
+.bg-crimson {
+    background-color: var(--begal-crimson);
+}
+
+/* Interactive Keyframe Animations */
+
+/* Pulsing Hotspots (Lookbook.html) */
+@keyframes pulse-hotspot {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(163, 29, 29, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 12px rgba(163, 29, 29, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(163, 29, 29, 0);
+    }
+}
+
+.hotspot-pulse {
+    animation: pulse-hotspot 2s infinite;
+}
+
+/* Floating Elements (Lotus motifs) */
+@keyframes float-lotus {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+.animate-float-lotus {
+    animation: float-lotus 6s ease-in-out infinite;
+}
+
+/* Rotating Alpana Mandala Borders */
+@keyframes rotate-alpana {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-rotate-alpana {
+    animation: rotate-alpana 160s linear infinite;
+}
+
+/* Border Alpana Patterns (Traditional Hand-Drawn SVGs as background strips) */
+.alpana-border-bottom {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='20' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q 25 20, 50 10 T 100 10 M 0 12 Q 25 22, 50 12 T 100 12' fill='none' stroke='%23A31D1D' stroke-width='1.2'/%3E%3Ccircle cx='25' cy='6' r='2' fill='%23A31D1D'/%3E%3Ccircle cx='75' cy='6' r='2' fill='%23A31D1D'/%3E%3Cpath d='M50 3 L 50 7 M25 10 L 25 14 M75 10 L 75 14' stroke='%23A31D1D' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    height: 20px;
+    opacity: 0.85;
+}
+
+.alpana-border-top {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='20' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q 25 0, 50 10 T 100 10 M 0 8 Q 25 -2, 50 8 T 100 8' fill='none' stroke='%23A31D1D' stroke-width='1.2'/%3E%3Ccircle cx='25' cy='14' r='2' fill='%23A31D1D'/%3E%3Ccircle cx='75' cy='14' r='2' fill='%23A31D1D'/%3E%3Cpath d='M50 17 L 50 13 M25 6 L 25 10 M75 6 L 75 10' stroke='%23A31D1D' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    height: 20px;
+    opacity: 0.85;
+}
+
+/* Elegant Boutique Cards & Shadows */
+.boutique-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(163, 29, 29, 0.1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.boutique-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--elegant-gold);
+    box-shadow: 0 12px 24px -10px rgba(163, 29, 29, 0.15);
+}
+
+/* Elegant Button Border transitions */
+.boutique-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.boutique-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--elegant-gold);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.boutique-btn:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Lookbook Card Animations */
+.lookbook-popup {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.9) translateY(10px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lookbook-popup.active {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Saree / Jewelry Handdrawn Overlay details */
+.illustration-container {
+    position: relative;
+    background: radial-gradient(circle, #FCF8F2 60%, #F5EDE0 100%);
+    border: 2px solid #EADCC9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.illustration-container::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed rgba(163, 29, 29, 0.25);
+    border-radius: 4px;
+    pointer-events: none;
+}

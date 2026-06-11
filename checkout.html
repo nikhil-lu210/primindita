@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic Bilingual SEO Meta Tags -->
+    <title id="checkout-meta-title" data-en="Secure Checkout | Primindita Boutique"
+        data-bn="অর্ডার সম্পন্ন করুন | প্রিমিন্দীতা বুটিক">অর্ডার সম্পন্ন করুন | প্রিমিন্দীতা বুটিক</title>
+    <meta name="description"
+        content="Review your artisanal shopping bag, provide your delivery credentials, and finalize your heritage order directly via our automated WhatsApp integration." />
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: '#A31D1D',
+                        crimsonHover: '#801414',
+                        charcoal: '#1C1C1C',
+                        creamDark: '#FAF4E8',
+                        gold: '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Global Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-[#FDFBF7] text-charcoal">
+
+    <!-- NAVIGATION HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <main class="relative min-h-screen py-12 md:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Dynamic Page Title -->
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 mb-3">
+                    <span class="h-px w-6 bg-gold"></span>
+                    <span class="font-bn font-semibold text-crimson text-xs tracking-wider uppercase"
+                        data-en="Complete Purchase" data-bn="নিরাপদ অর্ডার">নিরাপদ অর্ডার</span>
+                    <span class="h-px w-6 bg-gold"></span>
+                </div>
+                <h1 class="font-editorial text-3xl sm:text-4xl font-bold text-charcoal">
+                    <span class="text-crimson font-bn" data-en="Artisanal Checkout" data-bn="অর্ডার সম্পন্ন করুন">অর্ডার
+                        সম্পন্ন করুন</span>
+                </h1>
+            </div>
+
+            <!-- Empty Cart Warning (Hidden by default, shown if cart length is 0) -->
+            <div id="checkout-empty-container"
+                class="hidden text-center py-20 bg-white border border-[#EADCC9] rounded-lg p-8 max-w-xl mx-auto shadow-sm">
+                <div
+                    class="w-16 h-16 bg-crimson/5 border border-[#EADCC9] rounded-full flex items-center justify-center mx-auto mb-4 animate-float-lotus">
+                    <svg class="w-8 h-8 text-crimson" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </div>
+                <h3 class="font-editorial text-xl font-bold text-charcoal mb-2 font-bn" data-en="Your Bag is Empty"
+                    data-bn="আপনার শপিং থলিটি খালি">আপনার শপিং থলিটি খালি</h3>
+                <p class="font-bn text-sm text-gray-500 mb-8"
+                    data-en="You must add heritage sarees or antique jewelry to your shopping bag before you can checkout."
+                    data-bn="অর্ডার সম্পন্ন করার জন্য আপনার শপিং থলিতে অন্তত একটি ঐতিহ্যবাহী পোশাক অথবা রাজকীয় গহনা থাকতে হবে।">
+                    অর্ডার সম্পন্ন করার জন্য আপনার শপিং থলিতে অন্তত একটি ঐতিহ্যবাহী পোশাক অথবা রাজকীয় গহনা থাকতে হবে।
+                </p>
+                <a href="shop.html"
+                    class="px-6 py-3 bg-crimson hover:bg-crimsonHover text-white text-xs font-bold rounded transition-colors font-bn uppercase tracking-wider shadow-md">
+                    <span data-en="Explore Our Catalog" data-bn="সংগ্রহশালা ঘুরে দেখুন">সংগ্রহশালা ঘুরে দেখুন</span>
+                </a>
+            </div>
+
+            <!-- Active Checkout Grid (Form & Summary) -->
+            <div id="checkout-active-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+                <!-- Left Panel: Delivery Information Form (7 cols) -->
+                <div class="lg:col-span-7 bg-white border border-[#EADCC9] rounded-lg p-6 sm:p-8 shadow-sm relative">
+                    <div class="absolute inset-4 border border-dashed border-crimson/10 pointer-events-none rounded">
+                    </div>
+
+                    <h3 class="font-editorial text-xl font-bold text-charcoal mb-6 font-bn border-b border-gray-100 pb-3"
+                        data-en="Shipping Credentials" data-bn="ডেলিভারি সংক্রান্ত তথ্যাদি">ডেলিভারি সংক্রান্ত তথ্যাদি
+                    </h3>
+
+                    <form id="checkout-credentials-form" onsubmit="executeCheckoutRedirect(event)"
+                        class="space-y-6 relative z-10">
+
+                        <!-- Full Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 font-bn"
+                                data-en="Your Full Name" data-bn="আপনার সম্পূর্ণ নাম">আপনার সম্পূর্ণ নাম</label>
+                            <input type="text" id="customer-name" required
+                                class="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-crimson font-bn bg-[#FDFBF7]"
+                                placeholder="নামটি লিখুন..." data-en="Enter your full name..." data-bn="নামটি লিখুন...">
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 font-bn"
+                                data-en="Mobile Number" data-bn="মোবাইল নম্বর">মোবাইল নম্বর</label>
+                            <input type="tel" id="customer-phone" required pattern="[0-9+]{11,15}"
+                                class="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-crimson font-bn bg-[#FDFBF7]"
+                                placeholder="১১ ডিজিটের মোবাইল নম্বর..." data-en="e.g. 017XXXXXXXX..."
+                                data-bn="১১ ডিজিটের মোবাইল নম্বর...">
+                        </div>
+
+                        <!-- Delivery Region Selection -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 font-bn"
+                                data-en="Delivery Region" data-bn="ডেলিভারি এলাকা">ডেলিভারি এলাকা</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-gray-200 rounded bg-[#FDFBF7] cursor-pointer hover:border-crimson transition-all">
+                                    <input type="radio" name="delivery-zone" value="inside" checked
+                                        onchange="updateDeliveryFeeState()"
+                                        class="text-crimson focus:ring-crimson h-4 w-4">
+                                    <div>
+                                        <p class="text-xs font-bold font-bn" data-en="Inside Dhaka City"
+                                            data-bn="ঢাকা সিটি কর্পোরেশন এলাকা">ঢাকা সিটি কর্পোরেশন এলাকা</p>
+                                        <p class="text-[10px] text-gray-400 font-bn"
+                                            data-en="Fee: ৳ 80 | Time: 2-3 Days" data-bn="ফি: ৳ ৮০ | সময়: ২-৩ দিন">ফি: ৳
+                                            ৮০ | সময়: ২-৩ দিন</p>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-gray-200 rounded bg-[#FDFBF7] cursor-pointer hover:border-crimson transition-all">
+                                    <input type="radio" name="delivery-zone" value="outside"
+                                        onchange="updateDeliveryFeeState()"
+                                        class="text-crimson focus:ring-crimson h-4 w-4">
+                                    <div>
+                                        <p class="text-xs font-bold font-bn" data-en="Outside Dhaka City"
+                                            data-bn="ঢাকার বাইরে (সারাদেশ)">ঢাকার বাইরে (সারাদেশ)</p>
+                                        <p class="text-[10px] text-gray-400 font-bn"
+                                            data-en="Fee: ৳ 150 | Time: 5-7 Days" data-bn="ফি: ৳ ১৫০ | সময়: ৫-৭ দিন">ফি:
+                                            ৳ ১৫০ | সময়: ৫-৭ দিন</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Full Delivery Address -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 font-bn"
+                                data-en="Detailed Address" data-bn="ডেলিভারি ঠিকানা">ডেলিভারি ঠিকানা</label>
+                            <textarea id="customer-address" required rows="3"
+                                class="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-crimson font-bn bg-[#FDFBF7] leading-relaxed"
+                                placeholder="ফ্ল্যাট, হাউজ নম্বর, রোড, থানা, জেলা উল্লেখ করুন..."
+                                data-en="Enter your house number, street address, and city..."
+                                data-bn="ফ্ল্যাট, হাউজ নম্বর, রোড, থানা, জেলা উল্লেখ করুন..."></textarea>
+                        </div>
+
+                        <!-- Payment Method Choice -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 font-bn"
+                                data-en="Payment Method" data-bn="পেমেন্ট পদ্ধতি">পেমেন্ট পদ্ধতি</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-gray-200 rounded bg-[#FDFBF7] cursor-pointer hover:border-crimson transition-all">
+                                    <input type="radio" name="payment-method" value="cod" checked
+                                        class="text-crimson focus:ring-crimson h-4 w-4">
+                                    <div>
+                                        <p class="text-xs font-bold font-bn" data-en="Cash on Delivery (COD)"
+                                            data-bn="ক্যাশ অন ডেলিভারি">ক্যাশ অন ডেলিভারি</p>
+                                        <p class="text-[10px] text-gray-400 font-bn"
+                                            data-en="Pay cash upon physical delivery"
+                                            data-bn="পণ্য হাতে পেয়ে নগদ টাকা পরিশোধ করুন">পণ্য হাতে পেয়ে নগদ টাকা পরিশোধ
+                                            করুন</p>
+                                    </div>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-gray-200 rounded bg-[#FDFBF7] cursor-pointer hover:border-crimson transition-all">
+                                    <input type="radio" name="payment-method" value="bkash_nagad"
+                                        class="text-crimson focus:ring-crimson h-4 w-4">
+                                    <div>
+                                        <p class="text-xs font-bold font-bn" data-en="bKash / Nagad Transfer"
+                                            data-bn="বিকাশ / নগদ পার্সোনাল">বিকাশ / নগদ পার্সোনাল</p>
+                                        <p class="text-[10px] text-gray-400 font-bn"
+                                            data-en="Seller provides transfer details"
+                                            data-bn="অর্ডার করার পর ইনবক্সে নম্বর দেওয়া হবে">অর্ডার করার পর ইনবক্সে
+                                            নম্বর দেওয়া হবে</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="pt-4 border-t border-gray-100">
+                            <button type="submit"
+                                class="w-full bg-crimson hover:bg-crimsonHover text-white h-14 rounded text-xs font-bold flex items-center justify-center gap-2.5 transition-colors uppercase tracking-wider shadow-md">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.335 4.963L2 22l5.233-1.372a9.912 9.912 0 0 0 4.773 1.218h.004c5.505 0 9.988-4.478 9.989-9.984A9.985 9.985 0 0 0 12.012 2zm5.82 14.123c-.253.715-1.47 1.302-2.022 1.39-.49.077-.96.28-3.11-.6-2.583-1.057-4.218-3.692-4.347-3.864-.128-.173-1.042-1.39-1.042-2.651 0-1.261.643-1.88.872-2.126.229-.246.5-.308.667-.308h.478c.153 0 .358-.057.561.441.204.498.715 1.743.777 1.868.062.125.104.27.021.436-.083.167-.125.27-.25.416-.125.146-.263.327-.375.44-.125.125-.255.26-.11.51.146.25.648 1.071 1.39 1.733.957.854 1.761 1.118 2.011 1.243.25.125.395.104.54-.062.146-.167.623-.728.791-.977.167-.25.333-.208.562-.125.229.083 1.453.685 1.702.81.25.125.416.187.478.29.062.104.062.603-.191 1.319z" />
+                                </svg>
+                                <span data-en="Complete Order on WhatsApp"
+                                    data-bn="হোয়াটসঅ্যাপে অর্ডার সম্পন্ন করুন">হোয়াটসঅ্যাপে অর্ডার সম্পন্ন করুন</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Right Panel: Order Review and Bill Breakdown (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col gap-6">
+
+                    <!-- Ordered Items Cards -->
+                    <div class="bg-white border border-[#EADCC9] rounded-lg p-6 shadow-sm">
+                        <h4 class="font-editorial text-lg font-bold text-charcoal mb-4 font-bn border-b border-gray-100 pb-2"
+                            data-en="Items Review" data-bn="নির্বাচিত পণ্যসমূহ">নির্বাচিত পণ্যসমূহ</h4>
+                        <div id="checkout-items-list"
+                            class="divide-y divide-gray-100 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Pricing Math Breakdown -->
+                    <div class="bg-white border border-[#EADCC9] rounded-lg p-6 shadow-sm relative">
+                        <div
+                            class="absolute inset-4 border border-dashed border-crimson/15 pointer-events-none rounded">
+                        </div>
+                        <h4 class="font-editorial text-lg font-bold text-charcoal mb-4 font-bn border-b border-gray-100 pb-2"
+                            data-en="Bill Summary" data-bn="বিল হিসাব">বিল হিসাব</h4>
+
+                        <div class="space-y-3 font-bn text-xs text-gray-500 relative z-10">
+                            <!-- Items Subtotal -->
+                            <div class="flex justify-between items-center">
+                                <span data-en="Subtotal" data-bn="পণ্যের মোট মূল্য">পণ্যের মোট মূল্য</span>
+                                <span id="checkout-subtotal" class="font-bold text-charcoal">৳ ০</span>
+                            </div>
+
+                            <!-- Delivery Fee -->
+                            <div class="flex justify-between items-center">
+                                <span data-en="Delivery Charge" data-bn="ডেলিভারি চার্জ">ডেলিভারি চার্জ</span>
+                                <span id="checkout-shipping" class="font-bold text-charcoal">৳ ০</span>
+                            </div>
+
+                            <!-- Decorative Line -->
+                            <div class="h-px bg-gray-100 my-2"></div>
+
+                            <!-- Total Bill -->
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="font-bold text-charcoal" data-en="Grand Total"
+                                    data-bn="সর্বমোট বিল">সর্বমোট বিল</span>
+                                <span id="checkout-grand-total" class="text-base font-black text-crimson">৳ ০</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SHARED FOOTER PLACEHOLDER -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SLIDE-OVER SHOPPING CART DRAWER PLACEHOLDER -->
+    <div id="cart-drawer-placeholder"></div>
+
+    <!-- ========================================== -->
+    <!-- Scripts & Order Submission Logic           -->
+    <!-- ========================================== -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        /**
+         * Primindita - Dynamic Checkout Controller
+         * Integrates active local cart arrays, calculates shipping charges,
+         * and formats order packages to WhatsApp business APIs.
+         */
+
+        let shippingFee = 80; // Default Inside Dhaka
+
+        /**
+         * Loads local cart and generates dynamic review panels
+         */
+        function initializeCheckoutView() {
+            const cart = window.Cart ? window.Cart.getCart() : [];
+            const activeGrid = document.getElementById("checkout-active-grid");
+            const emptyContainer = document.getElementById("checkout-empty-container");
+
+            if (!activeGrid || !emptyContainer) return;
+
+            if (cart.length === 0) {
+                activeGrid.classList.add("hidden");
+                emptyContainer.classList.remove("hidden");
+                return;
+            }
+
+            activeGrid.classList.remove("hidden");
+            emptyContainer.classList.add("hidden");
+
+            renderCheckoutItems();
+            updateBillSummary();
+        }
+
+        /**
+         * Dynamic renderer of ordered product list in sidebar
+         */
+        function renderCheckoutItems() {
+            const listContainer = document.getElementById("checkout-items-list");
+            if (!listContainer) return;
+
+            const cart = window.Cart ? window.Cart.getCart() : [];
+            const lang = localStorage.getItem("primindita_lang") || "bn";
+            const isBn = lang === "bn";
+
+            let itemsHtml = "";
+            cart.forEach(item => {
+                const product = window.products.find(p => p.id === item.id);
+                if (!product) return;
+
+                const title = isBn ? product.titleBn : product.titleEn;
+                const formattedPrice = window.Cart.formatCurrency(product.price);
+                const totalItemPrice = window.Cart.formatCurrency(product.price * item.qty);
+                const qtyStr = window.Cart.formatNumber(item.qty);
+
+                itemsHtml += `
+                    <div class="flex items-center gap-3 py-3">
+                        <div class="w-12 h-12 bg-[#FAF4E8] border border-gray-100 rounded p-0.5 flex-shrink-0 flex items-center justify-center">
+                            ${product.svgMarkup}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h5 class="text-xs font-bold text-charcoal truncate font-bn">${title}</h5>
+                            <p class="text-[10px] text-gray-400 font-bn">${formattedPrice} × ${qtyStr}</p>
+                        </div>
+                        <div class="text-xs font-bold text-crimson font-bn">
+                            ${totalItemPrice}
+                        </div>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = itemsHtml;
+        }
+
+        /**
+         * Manages delivery region selection transitions and adjusts bill calculation
+         */
+        function updateDeliveryFeeState() {
+            const zones = document.getElementsByName("delivery-zone");
+            let selectedZone = "inside";
+
+            for (let i = 0; i < zones.length; i++) {
+                if (zones[i].checked) {
+                    selectedZone = zones[i].value;
+                    break;
+                }
+            }
+
+            shippingFee = selectedZone === "inside" ? 80 : 150;
+            updateBillSummary();
+        }
+
+        /**
+         * Performs arithmetic updates on subtotals and grand totals
+         */
+        function updateBillSummary() {
+            if (!window.Cart) return;
+
+            const subtotal = window.Cart.getCartTotal();
+            const grandTotal = subtotal + shippingFee;
+
+            document.getElementById("checkout-subtotal").textContent = window.Cart.formatCurrency(subtotal);
+            document.getElementById("checkout-shipping").textContent = window.Cart.formatCurrency(shippingFee);
+            document.getElementById("checkout-grand-total").textContent = window.Cart.formatCurrency(grandTotal);
+        }
+
+        /**
+         * Formulates order data and launches WhatsApp API link
+         * @param {Event} event - Form submission
+         */
+        function executeCheckoutRedirect(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("customer-name").value.trim();
+            const phone = document.getElementById("customer-phone").value.trim();
+            const address = document.getElementById("customer-address").value.trim();
+
+            const zones = document.getElementsByName("delivery-zone");
+            let deliveryZoneText = "Inside Dhaka";
+            for (let i = 0; i < zones.length; i++) {
+                if (zones[i].checked) {
+                    deliveryZoneText = zones[i].value === "inside" ? "Inside Dhaka" : "Outside Dhaka (National)";
+                    break;
+                }
+            }
+
+            const paymentMethods = document.getElementsByName("payment-method");
+            let paymentText = "Cash on Delivery";
+            for (let i = 0; i < paymentMethods.length; i++) {
+                if (paymentMethods[i].checked) {
+                    paymentText = paymentMethods[i].value === "cod" ? "Cash on Delivery" : "bKash / Nagad Transfer";
+                    break;
+                }
+            }
+
+            const cart = window.Cart.getCart();
+            const subtotal = window.Cart.getCartTotal();
+            const grandTotal = subtotal + shippingFee;
+
+            const lang = localStorage.getItem("primindita_lang") || "bn";
+            const isBn = lang === "bn";
+
+            // Format items list for message text
+            let itemsMessageBlock = "";
+            cart.forEach((item, index) => {
+                const product = window.products.find(p => p.id === item.id);
+                if (!product) return;
+                const title = isBn ? product.titleBn : product.titleEn;
+                itemsMessageBlock += `${index + 1}. ${title} (Code: ${product.id}) × ${item.qty} Qty\n`;
+            });
+
+            const waNumber = "8801700000000"; // Business WhatsApp Number
+
+            // Constructing finalized package
+            let finalizedMessage = "";
+            if (isBn) {
+                finalizedMessage =
+                    `নমস্কার প্রিমিন্দীতা! আমি নিম্নোক্ত ঐতিহ্যবাহী শাড়ি / গহনা অর্ডার করতে চাই:\n\n` +
+                    `📦 নির্বাচিত পণ্যসমূহ:\n` +
+                    `${itemsMessageBlock}\n` +
+                    `💳 বিল বিবরণী:\n` +
+                    `• পণ্যের মোট মূল্য: ৳ ${subtotal.toLocaleString('en-IN')}\n` +
+                    `• ডেলিভারি চার্জ: ৳ ${shippingFee}\n` +
+                    `• সর্বমোট বিল: ৳ ${grandTotal.toLocaleString('en-IN')}\n\n` +
+                    `👤 গ্রাহক পরিচিতি ও ঠিকানা:\n` +
+                    `• নাম: ${name}\n` +
+                    `• মোবাইল নম্বর: ${phone}\n` +
+                    `• ঠিকানা: ${address}\n` +
+                    `• ডেলিভারি এলাকা: ${deliveryZoneText === "Inside Dhaka" ? "ঢাকা সিটি" : "ঢাকার বাইরে"}\n` +
+                    `• পেমেন্ট মেথড: ${paymentText === "Cash on Delivery" ? "ক্যাশ অন ডেলিভারি" : "বিকাশ / নগদ পার্সোনাল"}\n\n` +
+                    `অনুগ্রহ করে আমার অর্ডারটি নিশ্চিত করে ডেলিভারি প্রক্রিয়া শুরু করার তথ্য দিন। ধন্যবাদ!`;
+            } else {
+                finalizedMessage =
+                    `Hello Primindita! I would like to place an order for the following artisanal selections:\n\n` +
+                    `📦 Selected Items:\n` +
+                    `${itemsMessageBlock}\n` +
+                    `💳 Bill Breakdown:\n` +
+                    `• Subtotal: BDT ${subtotal.toLocaleString('en-IN')}\n` +
+                    `• Delivery Fee: BDT ${shippingFee}\n` +
+                    `• Grand Total: BDT ${grandTotal.toLocaleString('en-IN')}\n\n` +
+                    `👤 Delivery Address Details:\n` +
+                    `• Customer Name: ${name}\n` +
+                    `• Phone Number: ${phone}\n` +
+                    `• Delivery Address: ${address}\n` +
+                    `• Region Zone: ${deliveryZoneText}\n` +
+                    `• Payment Method: ${paymentText}\n\n` +
+                    `Please verify my order details and guide me on the delivery timeline. Thank you!`;
+            }
+
+            // Cleanly encode WA API link
+            const encodedText = encodeURIComponent(finalizedMessage);
+            const fullWaLink = `https://wa.me/${waNumber}?text=${encodedText}`;
+
+            // Wipe local checkout cart after brief transition delay
+            setTimeout(() => {
+                window.Cart.clearCart();
+                initializeCheckoutView();
+            }, 1000);
+
+            // Open redirect tab
+            window.open(fullWaLink, "_blank");
+        }
+
+        // Initialize view on load
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeCheckoutView();
+        });
+
+        // Sync list instantly on external cart adjustments
+        window.addEventListener("priminditaCartUpdated", () => {
+            initializeCheckoutView();
+        });
+
+        // Register localized transition updates
+        window.addEventListener("priminditaLangUpdated", (e) => {
+            initializeCheckoutView();
+            const nameInput = document.getElementById("customer-name");
+            const phoneInput = document.getElementById("customer-phone");
+            const addressInput = document.getElementById("customer-address");
+
+            // Adjust form placeholders according to language updates
+            const isBn = e.detail === "bn";
+            if (nameInput) nameInput.setAttribute("placeholder", isBn ? "নামটি লিখুন..." : "Enter your full name...");
+            if (phoneInput) phoneInput.setAttribute("placeholder", isBn ? "১১ ডিজিটের মোবাইল নম্বর..." : "e.g. 017XXXXXXXX...");
+            if (addressInput) addressInput.setAttribute("placeholder", isBn ? "ফ্ল্যাট, হাউজ নম্বর, রোড, থানা, জেলা উল্লেখ করুন..." : "Enter your house number, street address, and city...");
+        });
+    </script>
+</body>
+
+</html>

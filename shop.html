@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic Bilingual SEO Meta Tags -->
+    <title data-en="Our Collection | Primindita Boutique" data-bn="আমাদের সংগ্রহশালা | প্রিমিন্দীতা বুটিক">আমাদের
+        সংগ্রহশালা | প্রিমিন্দীতা বুটিক</title>
+    <meta name="description"
+        content="Browse our curated visual catalog of premium handloom Dhakai Jamdanis, classic Gorod silks, and exquisite antique brass wedding jewelry." />
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: '#A31D1D',
+                        crimsonHover: '#801414',
+                        charcoal: '#1C1C1C',
+                        creamDark: '#FAF4E8',
+                        gold: '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Global Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-[#FDFBF7] text-charcoal">
+
+    <!-- NAVIGATION HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <main class="relative min-h-screen">
+
+        <!-- Editorial Section Header -->
+        <section class="py-12 md:py-16 border-b border-[#EADCC9] bg-[#FAF4E8] text-center px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="inline-flex items-center gap-2 mb-3">
+                    <span class="h-px w-6 bg-gold"></span>
+                    <span class="font-bn font-semibold text-crimson text-xs tracking-wider uppercase"
+                        data-en="Bespoke Collections" data-bn="শৈল্পিক উপস্থাপন">শৈল্পিক উপস্থাপন</span>
+                    <span class="h-px w-6 bg-gold"></span>
+                </div>
+                <h1 class="font-editorial text-3xl sm:text-5xl font-bold text-charcoal mb-4">
+                    <span class="text-crimson font-bn" data-en="The Gallery of Heritage"
+                        data-bn="চিরায়ত বাঙালি সাজ">চিরায়ত বাঙালি সাজ</span>
+                </h1>
+                <p class="font-bn text-sm sm:text-base text-gray-500 max-w-xl mx-auto leading-relaxed"
+                    data-en="Explore classical elegance designed and styled by a single Bengali women entrepreneur. Directly empowering local master weavers."
+                    data-bn="বিশুদ্ধ সুতোয় বোনা ঢাকাই জামদানি এবং রাজকীয় অ্যান্টিক গহনার এক অপূর্ব সমন্বয়। সরাসরি দেশীয় দক্ষ কারিগরদের দিয়ে তৈরি বিশেষ কালেকশন।">
+                    বিশুদ্ধ সুতোয় বোনা ঢাকাই জামদানি এবং রাজকীয় অ্যান্টিক গহনার এক অপূর্ব সমন্বয়। সরাসরি দেশীয় দক্ষ
+                    কারিগরদের দিয়ে তৈরি বিশেষ কালেকশন।
+                </p>
+            </div>
+        </section>
+
+        <!-- Dynamic Alpana Ribbon -->
+        <div class="alpana-border-bottom w-full"></div>
+
+        <!-- Interactive Filtering and Catalog Gallery -->
+        <section class="py-12 md:py-16 bg-[#FDFBF7]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- Filter Controls Toolbar -->
+                <div
+                    class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between mb-12 pb-6 border-b border-gray-100">
+
+                    <!-- Search Input Bar -->
+                    <div class="relative w-full lg:max-w-xs">
+                        <span
+                            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input type="text" id="shop-search" oninput="filterCatalog()"
+                            class="w-full pl-9 pr-4 py-2.5 text-xs border border-gray-200 rounded bg-white focus:outline-none focus:ring-1 focus:ring-crimson font-bn"
+                            placeholder="কাঙ্ক্ষিত ডিজাইনটি খুঁজুন..." data-en="Search collections..."
+                            data-bn="কাঙ্ক্ষিত ডিজাইনটি খুঁজুন...">
+                    </div>
+
+                    <!-- Category Tab Buttons -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="setCategoryFilter('all')" id="btn-cat-all"
+                            class="px-4 py-2 text-xs font-semibold rounded border border-crimson bg-crimson text-white transition-all font-bn shadow-sm">
+                            <span data-en="All Collections" data-bn="সকল কালেকশন">সকল কালেকশন</span>
+                        </button>
+                        <button onclick="setCategoryFilter('clothing')" id="btn-cat-clothing"
+                            class="px-4 py-2 text-xs font-semibold rounded border border-gray-200 bg-white text-charcoal hover:border-crimson hover:text-crimson transition-all font-bn">
+                            <span data-en="Heritage Sarees" data-bn="ঐতিহ্যবাহী পোশাক">ঐতিহ্যবাহী পোশাক</span>
+                        </button>
+                        <button onclick="setCategoryFilter('jewelry')" id="btn-cat-jewelry"
+                            class="px-4 py-2 text-xs font-semibold rounded border border-gray-200 bg-white text-charcoal hover:border-crimson hover:text-crimson transition-all font-bn">
+                            <span data-en="Royal Jewelry" data-bn="রাজকীয় গহনা">রাজকীয় গহনা</span>
+                        </button>
+                    </div>
+
+                    <!-- Sort Selection Dropdown -->
+                    <div class="flex items-center gap-2 self-start lg:self-auto">
+                        <label for="shop-sort" class="text-xs text-gray-400 font-bn" data-en="Sort By:"
+                            data-bn="ক্রমানুসারে:">ক্রমানুসারে:</label>
+                        <select id="shop-sort" onchange="filterCatalog()"
+                            class="border border-gray-200 bg-white px-3 py-2 text-xs rounded focus:outline-none focus:ring-1 focus:ring-crimson font-bn">
+                            <option value="default" data-en="Default" data-bn="ডিফল্ট সাজানো">ডিফল্ট সাজানো</option>
+                            <option value="low-to-high" data-en="Price: Low to High" data-bn="মূল্য: কম থেকে বেশি">
+                                মূল্য: কম থেকে বেশি</option>
+                            <option value="high-to-low" data-en="Price: High to Low" data-bn="মূল্য: বেশি থেকে কম">
+                                মূল্য: বেশি থেকে কম</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Product Catalog Dynamic Output Grid -->
+                <div id="shop-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards dynamically loaded from window.products -->
+                </div>
+
+                <!-- Empty State Message -->
+                <div id="shop-empty-state" class="hidden text-center py-24">
+                    <div
+                        class="w-16 h-16 bg-crimson/5 border border-[#EADCC9] rounded-full flex items-center justify-center mx-auto mb-4 animate-float-lotus">
+                        <svg class="w-8 h-8 text-crimson" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-editorial text-xl font-bold text-charcoal mb-2 font-bn" data-en="No Match Found"
+                        data-bn="কোনো ডিজাইন মেলেনি">কোনো ডিজাইন মেলেনি</h3>
+                    <p class="font-bn text-sm text-gray-500 max-w-xs mx-auto"
+                        data-en="We couldn't find any products matching your search criteria. Please try another term."
+                        data-bn="দুঃখিত! এই নামে বা ক্যাটাগরিতে আমাদের কোনো ডিজাইন পাওয়া যায়নি। অনুগ্রহ করে অন্য কিছু খুঁজুন।">
+                        দুঃখিত! এই নামে বা ক্যাটাগরিতে আমাদের কোনো ডিজাইন পাওয়া যায়নি। অনুগ্রহ করে অন্য কিছু খুঁজুন।</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SHARED FOOTER PLACEHOLDER -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SLIDE-OVER SHOPPING CART DRAWER PLACEHOLDER -->
+    <div id="cart-drawer-placeholder"></div>
+
+    <!-- ========================================== -->
+    <!-- Scripts & Catalog Interaction Logic        -->
+    <!-- ========================================== -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        /**
+         * Primindita - Dynamic Catalog Search & Filter Controller
+         */
+
+        let activeCategory = "all";
+
+        /**
+         * Parses URL search queries to pre-select filtering category
+         */
+        function parseQueryParameters() {
+            const params = new URLSearchParams(window.location.search);
+            const categoryParam = params.get("category");
+            if (categoryParam && ["clothing", "jewelry"].includes(categoryParam.toLowerCase())) {
+                activeCategory = categoryParam.toLowerCase();
+            }
+        }
+
+        /**
+         * Switches the active category filter state and triggers rendering
+         * @param {string} cat - Category tag ('all', 'clothing', 'jewelry')
+         */
+        function setCategoryFilter(cat) {
+            activeCategory = cat;
+
+            // Manage button active visual states
+            const cats = ['all', 'clothing', 'jewelry'];
+            cats.forEach(c => {
+                const btn = document.getElementById(`btn-cat-${c}`);
+                if (!btn) return;
+
+                if (c === cat) {
+                    btn.className = "px-4 py-2 text-xs font-semibold rounded border border-crimson bg-crimson text-white transition-all font-bn shadow-sm";
+                } else {
+                    btn.className = "px-4 py-2 text-xs font-semibold rounded border border-gray-200 bg-white text-charcoal hover:border-crimson hover:text-crimson transition-all font-bn";
+                }
+            });
+
+            filterCatalog();
+        }
+
+        /**
+         * Filters the product records by active search, category, and sorts by price
+         */
+        function filterCatalog() {
+            if (!window.products) return;
+
+            const searchVal = document.getElementById("shop-search").value.trim().toLowerCase();
+            const sortVal = document.getElementById("shop-sort").value;
+
+            const lang = localStorage.getItem("primindita_lang") || "bn";
+            const isBn = lang === "bn";
+
+            // 1. Filter by category & search values
+            let results = window.products.filter(product => {
+                const matchesCat = (activeCategory === "all") || (product.category === activeCategory);
+
+                const title = (isBn ? product.titleBn : product.titleEn).toLowerCase();
+                const desc = (isBn ? product.descriptionBn : product.descriptionEn).toLowerCase();
+                const matchesSearch = !searchVal || title.includes(searchVal) || desc.includes(searchVal);
+
+                return matchesCat && matchesSearch;
+            });
+
+            // 2. Sort results
+            if (sortVal === "low-to-high") {
+                results.sort((a, b) => a.price - b.price);
+            } else if (sortVal === "high-to-low") {
+                results.sort((a, b) => b.price - a.price);
+            }
+
+            renderCatalogCards(results, isBn);
+        }
+
+        /**
+         * Render filtered database array onto the DOM Grid layout
+         * @param {Array} items - Array of product objects
+         * @param {boolean} isBn - Language toggle flag
+         */
+        function renderCatalogCards(items, isBn) {
+            const grid = document.getElementById("shop-products-grid");
+            const emptyState = document.getElementById("shop-empty-state");
+
+            if (!grid) return;
+
+            if (items.length === 0) {
+                grid.classList.add("hidden");
+                emptyState.classList.remove("hidden");
+                return;
+            }
+
+            grid.classList.remove("hidden");
+            emptyState.classList.add("hidden");
+
+            let cardsHtml = "";
+            items.forEach(product => {
+                const title = isBn ? product.titleBn : product.titleEn;
+                const desc = isBn ? product.descriptionBn : product.descriptionEn;
+                const priceFormatted = window.Cart ? window.Cart.formatCurrency(product.price) : `৳ ${product.price}`;
+                const detailLink = `product.html?id=${product.id}`;
+                const tag = isBn ? product.tagsBn[0] : product.tagsEn[0];
+
+                cardsHtml += `
+                    <div class="boutique-card rounded overflow-hidden flex flex-col h-full bg-white relative">
+                        <!-- Premium Label Tag -->
+                        <span class="absolute top-4 left-4 z-10 bg-crimson text-[#FDFBF7] text-[10px] font-bold px-2 py-1 rounded font-bn uppercase tracking-wider">
+                            ${tag}
+                        </span>
+
+                        <!-- Svg Frame Illustration -->
+                        <a href="${detailLink}" class="block aspect-square w-full p-6 bg-cream-dark border-b border-gray-100 flex items-center justify-center relative overflow-hidden group">
+                            <div class="w-full h-full transform transition-transform duration-500 group-hover:scale-105">
+                                ${product.svgMarkup}
+                            </div>
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="bg-white/90 text-charcoal px-4 py-2 text-xs font-semibold rounded shadow-md font-bn">
+                                    ${isBn ? 'বিস্তারিত দেখুন' : 'View Details'}
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- Product Content Info -->
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="${isBn ? 'font-bn text-base' : 'font-ui text-sm'} font-bold text-charcoal mb-2 leading-snug">
+                                <a href="${detailLink}" class="hover:text-crimson transition-colors">${title}</a>
+                            </h3>
+                            <p class="font-bn text-xs text-gray-400 mb-4 flex-1 line-clamp-2">
+                                ${desc}
+                            </p>
+                            <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                                <span class="text-sm font-extrabold text-crimson font-bn">${priceFormatted}</span>
+                                
+                                <button onclick="window.Cart.addToCart('${product.id}', 1)" class="px-4 py-2 bg-crimson hover:bg-crimsonHover text-white text-xs font-bold rounded transition-colors duration-200 font-bn shadow-sm">
+                                    ${isBn ? 'থলিতে রাখুন' : 'Add to Bag'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = cardsHtml;
+        }
+
+        // Initialize script logic on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            parseQueryParameters();
+            setCategoryFilter(activeCategory);
+        });
+
+        // Register event listener for language toggles
+        window.addEventListener("priminditaLangUpdated", (e) => {
+            filterCatalog();
+        });
+    </script>
+</body>
+
+</html>

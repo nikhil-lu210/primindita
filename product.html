@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic Bilingual SEO Meta Tags -->
+    <title id="product-meta-title" data-en="Product Details | Primindita Boutique"
+        data-bn="পণ্যের বিবরণ | প্রিমিন্দীতা বুটিক">পণ্যের বিবরণ | প্রিমিন্দীতা বুটিক</title>
+    <meta name="description"
+        content="Explore detailed specifications, pure handloom weavers' craftsmanship, and styled visual profiles for our signature collections." />
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: '#A31D1D',
+                        crimsonHover: '#801414',
+                        charcoal: '#1C1C1C',
+                        creamDark: '#FAF4E8',
+                        gold: '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Global Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-[#FDFBF7] text-charcoal">
+
+    <!-- NAVIGATION HEADER PLACEHOLDER -->
+    <div id="header-placeholder"></div>
+
+    <main class="relative min-h-screen">
+
+        <!-- Interactive Detail Block -->
+        <section class="py-12 md:py-20 bg-[#FDFBF7]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- Dynamic Back to Collection Anchor Link -->
+                <div class="mb-8">
+                    <a href="shop.html"
+                        class="inline-flex items-center gap-2 text-xs font-semibold text-crimson hover:text-crimsonHover transition-colors font-bn group">
+                        <span class="transform transition-transform group-hover:-translate-x-1">←</span>
+                        <span data-en="Back to Shop Catalog" data-bn="সংগ্রহশালায় ফিরে চলুন">সংগ্রহশালায় ফিরে
+                            চলুন</span>
+                    </a>
+                </div>
+
+                <!-- Product Display Workspace (Populated Dynamically) -->
+                <div id="product-display-container"
+                    class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+                    <!-- Left: Gallery Display (Main View + 5 Thumbnail Selectors) (Lg: 6 cols) -->
+                    <div class="lg:col-span-6 flex flex-col items-center gap-6">
+                        <!-- Main Image Frame Container -->
+                        <div
+                            class="relative w-full max-w-[500px] aspect-square p-6 bg-white border border-[#EADCC9] rounded-lg shadow-xl overflow-hidden select-none">
+                            <div
+                                class="absolute inset-4 border border-dashed border-crimson opacity-15 pointer-events-none">
+                            </div>
+
+                            <!-- Dynamic illustration SVG is injected here -->
+                            <div id="detail-image-frame"
+                                class="w-full h-full flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
+                                <!-- Loaded dynamically via showActiveImage() -->
+                            </div>
+                        </div>
+
+                        <!-- 5 Clickable Image Thumbnails Strip -->
+                        <div id="gallery-thumbnails-strip" class="grid grid-cols-5 gap-3 w-full max-w-[500px]">
+                            <!-- Generated dynamically from activeProduct.images array -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Core Specs & Conversion Control Panel (Lg: 6 cols) -->
+                    <div class="lg:col-span-6 flex flex-col">
+
+                        <!-- Tags Container -->
+                        <div id="detail-tags-wrapper" class="flex flex-wrap gap-2 mb-4">
+                            <!-- Tags injected dynamically -->
+                        </div>
+
+                        <!-- Main Titles & Price -->
+                        <h1 id="detail-title"
+                            class="font-editorial text-3xl sm:text-4xl font-bold text-charcoal mb-3 leading-tight font-bn">
+                            <!-- Injected Title -->
+                        </h1>
+
+                        <div id="detail-price" class="text-2xl font-black text-crimson font-bn mb-6">
+                            <!-- Injected Price -->
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="h-px w-full bg-gray-100 mb-6"></div>
+
+                        <!-- Product Description -->
+                        <div class="mb-8">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 font-bn mb-2"
+                                data-en="The Weaver's Tale" data-bn="কারিগরের বয়ান">কারিগরের বয়ান</h3>
+                            <p id="detail-desc" class="font-bn text-sm text-gray-500 leading-relaxed">
+                                <!-- Injected Description -->
+                            </p>
+                        </div>
+
+                        <!-- Detailed Features Bullet List -->
+                        <div class="mb-8">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 font-bn mb-3"
+                                data-en="Heritage Blueprint" data-bn="ডিজাইন বৈশিষ্ট্য">ডিজাইন বৈশিষ্ট্য</h3>
+                            <ul id="detail-features-list" class="space-y-2.5 font-bn text-xs text-gray-500">
+                                <!-- Injected bullet items -->
+                            </ul>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="h-px w-full bg-gray-100 mb-8"></div>
+
+                        <!-- Cart Action Panel (Quantity and Buy CTAs) -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-10">
+
+                            <!-- Custom Quantity Selector Counter -->
+                            <div
+                                class="flex items-center justify-between border border-gray-200 rounded p-1 bg-white sm:w-32 h-14">
+                                <button onclick="changeDetailQty(-1)"
+                                    class="w-10 h-full flex items-center justify-center text-gray-400 hover:text-crimson font-bold text-lg select-none transition-colors">-</button>
+                                <span id="detail-qty-indicator"
+                                    class="font-bold text-sm text-charcoal font-bn select-none">১</span>
+                                <button onclick="changeDetailQty(1)"
+                                    class="w-10 h-full flex items-center justify-center text-gray-400 hover:text-crimson font-bold text-lg select-none transition-colors">+</button>
+                            </div>
+
+                            <!-- "Add to Bag" Slide-drawer purchase link button -->
+                            <button onclick="triggerDetailAddToCart()"
+                                class="flex-1 bg-crimson hover:bg-crimsonHover text-white h-14 text-xs font-bold rounded shadow transition-colors font-bn tracking-wider uppercase">
+                                <span data-en="Add to Shopping Bag" data-bn="শপিং থলিতে রাখুন">শপিং থলিতে রাখুন</span>
+                            </button>
+
+                        </div>
+
+                        <!-- Direct Instant WhatsApp Ordering CTA -->
+                        <div class="mb-10">
+                            <button onclick="triggerWhatsAppOrder()"
+                                class="w-full h-14 border border-[#25D366] text-[#25D366] hover:bg-[#25D366]/5 rounded text-xs font-bold font-bn flex items-center justify-center gap-2.5 transition-colors uppercase tracking-wider">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.335 4.963L2 22l5.233-1.372a9.912 9.912 0 0 0 4.773 1.218h.004c5.505 0 9.988-4.478 9.989-9.984A9.985 9.985 0 0 0 12.012 2zm5.82 14.123c-.253.715-1.47 1.302-2.022 1.39-.49.077-.96.28-3.11-.6-2.583-1.057-4.218-3.692-4.347-3.864-.128-.173-1.042-1.39-1.042-2.651 0-1.261.643-1.88.872-2.126.229-.246.5-.308.667-.308h.478c.153 0 .358-.057.561.441.204.498.715 1.743.777 1.868.062.125.104.27.021.436-.083.167-.125.27-.25.416-.125.146-.263.327-.375.44-.125.125-.255.26-.11.51.146.25.648 1.071 1.39 1.733.957.854 1.761 1.118 2.011 1.243.25.125.395.104.54-.062.146-.167.623-.728.791-.977.167-.25.333-.208.562-.125.229.083 1.453.685 1.702.81.25.125.416.187.478.29.062.104.062.603-.191 1.319z" />
+                                </svg>
+                                <span data-en="Instantly Order via WhatsApp"
+                                    data-bn="হোয়াটসঅ্যাপে সরাসরি অর্ডার করুন">হোয়াটসঅ্যাপে সরাসরি অর্ডার করুন</span>
+                            </button>
+                        </div>
+
+                        <!-- Technical Guidelines Expandable Accordion Tabs -->
+                        <div
+                            class="border border-gray-100 rounded bg-[#FAF4E8]/60 overflow-hidden divide-y divide-gray-100">
+                            <!-- Tab 1 -->
+                            <div class="accordion-tab">
+                                <button onclick="toggleAccordionTab(1)"
+                                    class="w-full flex items-center justify-between p-4 text-left font-bn font-bold text-xs text-charcoal hover:text-crimson transition-colors focus:outline-none">
+                                    <span data-en="Materials & Specifications" data-bn="উপাদান ও বুনন শৈলী">উপাদান ও
+                                        বুনন শৈলী</span>
+                                    <span id="accordion-icon-1"
+                                        class="text-sm font-normal text-gray-400 transition-transform">+</span>
+                                </button>
+                                <div id="accordion-content-1"
+                                    class="hidden px-4 pb-4 font-bn text-xs text-gray-500 leading-relaxed space-y-2 pt-1">
+                                    <p data-en="Our sarees are handloomed using premium natural mulberry silk, pure organic cotton yarns, and gold-coated zari threads. All jewelry selections feature cast-brass configurations with micro-gold plating."
+                                        data-bn="আমাদের শাড়িগুলো প্রিমিয়াম তুঁত সিল্ক, খাঁটি সুতি সুতো এবং চমৎকার সোনালী জরির সুক্ষ্ম মিশ্রণে তৈরি। অ্যান্টিক গহনাগুলো দীর্ঘস্থায়ী ব্রাসের ওপর সোনার পলিশে অলংকৃত।">
+                                        আমাদের শাড়িগুলো প্রিমিয়াম তুঁত সিল্ক, খাঁটি সুতি সুতো এবং চমৎকার সোনালী জরির
+                                        সুক্ষ্ম মিশ্রণে তৈরি। অ্যান্টিক গহনাগুলো দীর্ঘস্থায়ী ব্রাসের ওপর সোনার পলিশে
+                                        অলংকৃত।
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Tab 2 -->
+                            <div class="accordion-tab">
+                                <button onclick="toggleAccordionTab(2)"
+                                    class="w-full flex items-center justify-between p-4 text-left font-bn font-bold text-xs text-charcoal hover:text-crimson transition-colors focus:outline-none">
+                                    <span data-en="Boutique Care Instructions"
+                                        data-bn="ব্যবহার ও যত্ন নির্দেশিকা">ব্যবহার ও যত্ন নির্দেশিকা</span>
+                                    <span id="accordion-icon-2"
+                                        class="text-sm font-normal text-gray-400 transition-transform">+</span>
+                                </button>
+                                <div id="accordion-content-2"
+                                    class="hidden px-4 pb-4 font-bn text-xs text-gray-500 leading-relaxed space-y-2 pt-1">
+                                    <p data-en="For sarees: Dry clean only. Iron on low heat on reverse side using a protective cotton layer. For jewelry: Wipe clean with dry soft cotton after use. Keep away from water, perfumes, and direct moisture."
+                                        data-bn="শাড়ির ক্ষেত্রে: শুধুমাত্র ড্রাই ক্লিন করুন। পেছনের অংশে সুতির কাপড় রেখে হালকা তাপে ইস্ত্রি করুন। গহনার ক্ষেত্রে: ব্যবহারের পর শুকনো সুতি কাপড় দিয়ে মুছে রাখুন। পানি ও সুগন্ধি থেকে দূরে রাখুন।">
+                                        শাড়ির ক্ষেত্রে: শুধুমাত্র ড্রাই ক্লিন করুন। পেছনের অংশে সুতির কাপড় রেখে হালকা
+                                        তাপে ইস্ত্রি করুন। গহনার ক্ষেত্রে: ব্যবহারের পর শুকনো সুতি কাপড় দিয়ে মুছে রাখুন।
+                                        পানি ও সুগন্ধি থেকে দূরে রাখুন।
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Tab 3 -->
+                            <div class="accordion-tab">
+                                <button onclick="toggleAccordionTab(3)"
+                                    class="w-full flex items-center justify-between p-4 text-left font-bn font-bold text-xs text-charcoal hover:text-crimson transition-colors focus:outline-none">
+                                    <span data-en="Boutique Delivery & Returns"
+                                        data-bn="ডেলিভারি ও রিটার্ন পলিসি">ডেলিভারি ও রিটার্ন পলিসি</span>
+                                    <span id="accordion-icon-3"
+                                        class="text-sm font-normal text-gray-400 transition-transform">+</span>
+                                </button>
+                                <div id="accordion-content-3"
+                                    class="hidden px-4 pb-4 font-bn text-xs text-gray-500 leading-relaxed space-y-2 pt-1">
+                                    <p data-en="Standard inside Dhaka deliveries take 2-3 business days. Deliveries across the country take 5-7 business days. Due to the limited nature of hand-curated designs, returns are accepted strictly under transport damage validation."
+                                        data-bn="ঢাকা সিটিতে ২-৩ কর্মদিবস এবং ঢাকার বাইরে ৫-৭ কর্মদিবসে ডেলিভারি সম্পন্ন হয়। আমাদের ডিজাইনগুলো সম্পূর্ণ হাতের তৈরি ও সীমিত সংস্করণের হওয়ায় শুধুমাত্র ট্রান্সপোর্ট ড্যামেজের ভিত্তিতে রিটার্ন গ্রহণযোগ্য।">
+                                        ঢাকা সিটিতে ২-৩ কর্মদিবস এবং ঢাকার বাইরে ৫-৭ কর্মদিবসে ডেলিভারি সম্পন্ন হয়।
+                                        আমাদের ডিজাইনগুলো সম্পূর্ণ হাতের তৈরি ও সীমিত সংস্করণের হওয়ায় শুধুমাত্র
+                                        ট্রান্সপোর্ট ড্যামেজের ভিত্তিতে রিটার্ন গ্রহণযোগ্য।
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Error State Placeholder (Shown dynamically when product ID matches nothing) -->
+                <div id="product-error-container" class="hidden text-center py-24">
+                    <div
+                        class="w-16 h-16 bg-crimson/5 border border-[#EADCC9] rounded-full flex items-center justify-center mx-auto mb-4 animate-float-lotus">
+                        <svg class="w-8 h-8 text-crimson" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-editorial text-xl font-bold text-charcoal mb-2 font-bn" data-en="Product Not Found"
+                        data-bn="পণ্যটি পাওয়া যায়নি">পণ্যটি পাওয়া যায়নি</h3>
+                    <p class="font-bn text-sm text-gray-500 max-w-sm mx-auto mb-8"
+                        data-en="The product you are trying to view does not exist or may have been archived. Please explore our other heritage styles."
+                        data-bn="দুঃখিত! এই ডিজাইনটি এই মুহূর্তে সংগ্রহশালায় নেই অথবা সরিয়ে নেওয়া হয়েছে। অনুগ্রহ করে আমাদের অন্যান্য ঐতিহ্যবাহী ডিজাইনগুলো দেখুন।">
+                        দুঃখিত! এই ডিজাইনটি এই মুহূর্তে সংগ্রহশালায় নেই অথবা সরিয়ে নেওয়া হয়েছে। অনুগ্রহ করে আমাদের
+                        অন্যান্য ঐতিহ্যবাহী ডিজাইনগুলো দেখুন।</p>
+                    <a href="shop.html"
+                        class="px-6 py-3 bg-crimson hover:bg-crimsonHover text-white text-xs font-bold rounded transition-colors font-bn duration-200 inline-block shadow-sm">
+                        <span data-en="Return to Collections" data-bn="সংগ্রহশালায় ফিরে চলুন">সংগ্রহশালায় ফিরে
+                            চলুন</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SHARED FOOTER PLACEHOLDER -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SLIDE-OVER SHOPPING CART DRAWER PLACEHOLDER -->
+    <div id="cart-drawer-placeholder"></div>
+
+    <!-- ========================================== -->
+    <!-- Scripts & Details Viewer Controller        -->
+    <!-- ========================================== -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        /**
+         * Primindita - Dynamic Details Controller
+         * Integrates query param parsing and loads targeted product data.
+         */
+
+        let activeProduct = null;
+        let selectedQty = 1;
+        let activeImageIndex = 0;
+
+        /**
+         * Extracts parameters and parses product data from window.products
+         */
+        function parseProductFromQuery() {
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get("id");
+
+            if (!productId || !window.products) {
+                renderErrorState();
+                return;
+            }
+
+            const match = window.products.find(p => p.id === productId);
+            if (!match) {
+                renderErrorState();
+                return;
+            }
+
+            activeProduct = match;
+            activeImageIndex = 0; // Reset to the first image in the array
+            renderProductDetails();
+        }
+
+        /**
+         * Render detailed product information and interactive gallery to the DOM
+         */
+        function renderProductDetails() {
+            const displayBox = document.getElementById("product-display-container");
+            const errorBox = document.getElementById("product-error-container");
+            if (!displayBox || !errorBox || !activeProduct) return;
+
+            displayBox.classList.remove("hidden");
+            errorBox.classList.add("hidden");
+
+            const lang = localStorage.getItem("primindita_lang") || "bn";
+            const isBn = lang === "bn";
+
+            // Set Meta/Document title
+            const metaTitle = document.getElementById("product-meta-title");
+            if (metaTitle) {
+                const titleStr = isBn ? activeProduct.titleBn : activeProduct.titleEn;
+                metaTitle.textContent = `${titleStr} | Primindita`;
+            }
+
+            // Render interactive multi-image gallery
+            renderGallerySystem();
+
+            // Render Title & Pricing
+            document.getElementById("detail-title").textContent = isBn ? activeProduct.titleBn : activeProduct.titleEn;
+            document.getElementById("detail-price").textContent = window.Cart ? window.Cart.formatCurrency(activeProduct.price) : `৳ ${activeProduct.price}`;
+
+            // Description
+            document.getElementById("detail-desc").textContent = isBn ? activeProduct.descriptionBn : activeProduct.descriptionEn;
+
+            // Tags labels
+            const tagsWrapper = document.getElementById("detail-tags-wrapper");
+            const tags = isBn ? activeProduct.tagsBn : activeProduct.tagsEn;
+            let tagsHtml = "";
+            tags.forEach(tag => {
+                tagsHtml += `<span class="bg-crimson text-white text-[9px] font-bold px-2 py-0.5 rounded font-bn tracking-wide">${tag}</span>`;
+            });
+            tagsWrapper.innerHTML = tagsHtml;
+
+            // Feature bullets
+            const featuresList = document.getElementById("detail-features-list");
+            const features = isBn ? activeProduct.featuresBn : activeProduct.featuresEn;
+            let featuresHtml = "";
+            features.forEach(feat => {
+                featuresHtml += `
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-crimson font-bold mt-0.5">•</span>
+                        <span>${feat}</span>
+                    </li>
+                `;
+            });
+            featuresList.innerHTML = featuresHtml;
+        }
+
+        /**
+         * Generates and manages the 5-image gallery grid thumbnails
+         */
+        function renderGallerySystem() {
+            if (!activeProduct) return;
+
+            // Fallback if the products array doesn't define images array (make backwards compatible)
+            const images = activeProduct.images || [activeProduct.svgMarkup];
+
+            // Render main display image frame
+            const mainFrame = document.getElementById("detail-image-frame");
+            if (mainFrame) {
+                mainFrame.innerHTML = images[activeImageIndex];
+            }
+
+            // Render thumbnail list
+            const thumbStrip = document.getElementById("gallery-thumbnails-strip");
+            if (thumbStrip) {
+                let thumbHtml = "";
+                images.forEach((svgString, index) => {
+                    const isActive = index === activeImageIndex;
+                    thumbHtml += `
+                        <button onclick="setGalleryImage(${index})" 
+                                class="aspect-square bg-[#FAF4E8] rounded-md p-1 border-2 overflow-hidden transition-all duration-300 focus:outline-none flex items-center justify-center ${isActive
+                            ? 'border-crimson shadow-md scale-95 ring-2 ring-crimson/10'
+                            : 'border-[#EADCC9] opacity-70 hover:opacity-100 hover:border-crimson/55'
+                        }">
+                            <div class="w-full h-full select-none pointer-events-none">
+                                ${svgString}
+                            </div>
+                        </button>
+                    `;
+                });
+                thumbStrip.innerHTML = thumbHtml;
+            }
+        }
+
+        /**
+         * Switches the main detail page display frame to targeted image index
+         * @param {number} index - Index of selected product image
+         */
+        function setGalleryImage(index) {
+            activeImageIndex = index;
+            renderGallerySystem();
+        }
+
+        /**
+         * Renders error state when product link is invalid
+         */
+        function renderErrorState() {
+            const displayBox = document.getElementById("product-display-container");
+            const errorBox = document.getElementById("product-error-container");
+            if (displayBox && errorBox) {
+                displayBox.classList.add("hidden");
+                errorBox.classList.remove("hidden");
+            }
+        }
+
+        /**
+         * Manages details page quantities selection state
+         * @param {number} change - Positive or negative value
+         */
+        function changeDetailQty(change) {
+            selectedQty += change;
+            if (selectedQty < 1) selectedQty = 1;
+
+            const qtyIndicator = document.getElementById("detail-qty-indicator");
+            if (qtyIndicator) {
+                qtyIndicator.textContent = window.Cart ? window.Cart.formatNumber(selectedQty) : selectedQty;
+            }
+        }
+
+        /**
+         * Executes direct add to cart mechanism
+         */
+        function triggerDetailAddToCart() {
+            if (activeProduct && window.Cart) {
+                window.Cart.addToCart(activeProduct.id, selectedQty);
+            }
+        }
+
+        /**
+         * Drafts and opens a customized pre-filled WhatsApp message click link to order instantly
+         */
+        function triggerWhatsAppOrder() {
+            if (!activeProduct) return;
+
+            const lang = localStorage.getItem("primindita_lang") || "bn";
+            const isBn = lang === "bn";
+
+            const productTitle = isBn ? activeProduct.titleBn : activeProduct.titleEn;
+            const priceText = window.Cart ? window.Cart.formatCurrency(activeProduct.price) : `৳ ${activeProduct.price}`;
+            const totalText = window.Cart ? window.Cart.formatCurrency(activeProduct.price * selectedQty) : `৳ ${activeProduct.price * selectedQty}`;
+
+            const waNumber = "8801700000000"; // Official WhatsApp business contact line
+
+            // Constructing message
+            let rawMessage = "";
+            if (isBn) {
+                rawMessage = `নমস্কার প্রিমিন্দীতা! আমি নিচে দেওয়া পণ্যটি অর্ডার করতে আগ্রহী:\n\n` +
+                    `• পণ্য: ${productTitle}\n` +
+                    `• কোড / আইডি: ${activeProduct.id}\n` +
+                    `• একক মূল্য: ${priceText}\n` +
+                    `• পরিমাণ: ${selectedQty} টি\n` +
+                    `• সর্বমোট মূল্য: ${totalText}\n\n` +
+                    `অনুগ্রহ করে পণ্যটি ক্রয়ের জন্য অর্ডার সম্পন্ন করার পরবর্তী তথ্য আমাকে জানান। ধন্যবাদ!`;
+            } else {
+                rawMessage = `Hello Primindita! I would like to place an order for the following item:\n\n` +
+                    `• Product: ${productTitle}\n` +
+                    `• Code / ID: ${activeProduct.id}\n` +
+                    `• Unit Price: ${priceText}\n` +
+                    `• Quantity: ${selectedQty}\n` +
+                    `• Total Price: ${totalText}\n\n` +
+                    `Please guide me with the checkout process. Thank you!`;
+            }
+
+            // Encode string characters cleanly
+            const encodedText = encodeURIComponent(rawMessage);
+            const fullLink = `https://wa.me/${waNumber}?text=${encodedText}`;
+
+            // Redirect user to WhatsApp API
+            window.open(fullLink, "_blank");
+        }
+
+        /**
+         * Custom Accordion Tab Switcher
+         * @param {number} num - Tab identification number
+         */
+        function toggleAccordionTab(num) {
+            const content = document.getElementById(`accordion-content-${num}`);
+            const icon = document.getElementById(`accordion-icon-${num}`);
+            if (!content || !icon) return;
+
+            if (content.classList.contains("hidden")) {
+                content.classList.remove("hidden");
+                icon.textContent = "−";
+                icon.classList.add("text-crimson", "font-bold");
+            } else {
+                content.classList.add("hidden");
+                icon.textContent = "+";
+                icon.classList.remove("text-crimson", "font-bold");
+            }
+        }
+
+        // Initialize script details on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            parseProductFromQuery();
+        });
+
+        // Register localized state transitions
+        window.addEventListener("priminditaLangUpdated", (e) => {
+            // Re-render strings dynamically with active translations
+            renderProductDetails();
+
+            // Adjust the active displayed quantity indicator to the new language numeral
+            const qtyIndicator = document.getElementById("detail-qty-indicator");
+            if (qtyIndicator) {
+                qtyIndicator.textContent = window.Cart ? window.Cart.formatNumber(selectedQty) : selectedQty;
+            }
+        });
+    </script>
+</body>
+
+</html>
